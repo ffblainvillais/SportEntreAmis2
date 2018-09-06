@@ -4,3 +4,7 @@
 index:
     path: /
     defaults: { _controller: 'App\Controller\IndexController::index' }
+
+inscription:
+    path: /inscription
+    controller: App\Controller\RegisterController::registerAction

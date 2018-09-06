@@ -26,7 +26,7 @@
 
                 {% set userConnected = false %}
                 {% if not userConnected %}
-                    <li><a href="#">Connexion</a></li>
+                    <li><a href="{{ url('inscription') }}">Connexion</a></li>
                 {% else %}
                     <li class="dropdown">
                         <a href="#">
