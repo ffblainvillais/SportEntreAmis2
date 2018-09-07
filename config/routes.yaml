@@ -5,14 +5,7 @@ index:
     path: /
     defaults: { _controller: 'App\Controller\IndexController::index' }
 
-register:
-    path: /inscription
-    controller: App\Controller\RegisterController::registerAction
+user:
+    resource: "@UserBundle/Resources/config/routing.yml"
 
-login:
-    path: /connexion
-    controller: App\Controller\LoginController::loginAction
 
-logout:
-    path: /deconnexion
-    controller: App\Controller\LoginController::logoutAction

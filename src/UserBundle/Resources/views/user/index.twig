@@ -1,0 +1,65 @@
+{% extends 'layout/layout' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h2>Bonjour {{ auth_user().name }}</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel panel-heading"> Information établissement </div>
+                    <div class="panel-body">
+                        {% if not userEstablishment %}
+                            <div class="centered">
+                                <p>Vous n'avez pas encore défini votre établissement</p>
+                                <a href="{{ url('user/create-establishment') }}"><button class="btn btn-primary">Créer mon établissement</button></a>
+                            </div>
+                        {% else %}
+                            <h3>{{ userEstablishment.name }}</h3>
+
+                            <p><i class="fas fa-phone"></i> {{ userEstablishment.phone }}</p>
+                            <p><i class="fas fa-map-marked"></i> {{ userEstablishment.address }} {{ userEstablishment.postal_code }} {{ userEstablishment.city }}</p>
+                            <p><i class="fas fa-door-open"></i> horaires d'ouverture</p>
+
+                            <button class="btn btn-danger">Modifier</button>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-dafault">
+                    <div class="panel panel-heading"> Sports proposes par mon établissement </div>
+                    <div class="panel-body">
+                        {% if not userEstablishment.sports %}
+                            <div>
+                                <p>Vous n'avez pas encore ajouté de sports a votre établissement</p>
+                            </div>
+                        {% else %}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-dafault">
+                    <div class="panel panel-heading"> Historique des réservations </div>
+                    <div class="panel-body">
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

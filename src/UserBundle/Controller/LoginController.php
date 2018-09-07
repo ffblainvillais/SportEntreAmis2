@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -10,7 +10,7 @@ class LoginController extends AbstractController
 
     public function loginAction(AuthenticationUtils $helper)
     {
-        return $this->render('register/login.twig', [
+        return $this->render('@User/register/login.twig', [
             'last_username' => $helper->getLastUsername(),
             'error'         => $helper->getLastAuthenticationError(),
         ]);

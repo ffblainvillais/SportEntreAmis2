@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Controller;
+namespace App\UserBundle\Controller;
 
 use App\Form\UserType;
-use App\Entity\User;
+use App\UserBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -31,7 +31,7 @@ class RegisterController extends Controller
         }
 
         return $this->render(
-            'register/register.twig',
+            '@User/register/register.twig',
             array('form' => $form->createView())
         );
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entity;
+namespace App\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\UserBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
  * @UniqueEntity(fields="email", message="Email déjà utilisé")
  */
