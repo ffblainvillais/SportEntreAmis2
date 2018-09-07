@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegisterController extends Controller
 {
 
-    public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    public function registerAction(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -20,19 +20,14 @@ class RegisterController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $password = $passwordEncoder->encodePassword($user, $user->getPassword());
+            $password = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($password);
-
-            // Par defaut l'utilisateur aura toujours le rôle ROLE_USER
-            //$user->setRoles(['ROLE_USER']);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            
-            echo "<pre style='background:#fff; color:#000'>";\Doctrine\Common\Util\Debug::dump('ok');die();
 
-            return $this->redirectToRoute('security_login');
+            return $this->redirectToRoute('user');
         }
 
         return $this->render(

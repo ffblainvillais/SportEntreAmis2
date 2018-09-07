@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 
 /**
@@ -11,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="user")
  * @UniqueEntity(fields="email", message="Email déjà utilisé")
  */
-class User
+class User implements  UserInterface
 {
     /**
      * @ORM\Id()
@@ -86,6 +87,11 @@ class User
         $this->lastName = $lastName;
     }
 
+    public function getUsername()
+    {
+        return null;
+    }
+
     public function getEmail()
     {
         return $this->email;
@@ -118,6 +124,11 @@ class User
         // the salt value is built-in and you don't have to generate one
 
         return null;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
     }
 
     /**
