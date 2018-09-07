@@ -25,14 +25,14 @@ class User
      *
      * @ORM\Column(type="string")
      */
-    private $fullName;
+    private $firstName;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string")
      */
-    private $username;
+    private $lastName;
 
     /**
      * @var string
@@ -54,24 +54,36 @@ class User
         return $this->id;
     }
 
-    public function setFullName($fullName)
+    /**
+     * @return string
+     */
+    public function getFirstName()
     {
-        $this->fullName = $fullName;
+        return $this->firstName;
     }
 
-    public function getFullName()
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName($firstName)
     {
-        return $this->fullName;
+        $this->firstName = $firstName;
     }
 
-    public function getUsername()
+    /**
+     * @return string
+     */
+    public function getLastName()
     {
-        return $this->username;
+        return $this->lastName;
     }
 
-    public function setUsername($username)
+    /**
+     * @param string $lastName
+     */
+    public function setLastName($lastName)
     {
-        $this->username = $username;
+        $this->lastName = $lastName;
     }
 
     public function getEmail()

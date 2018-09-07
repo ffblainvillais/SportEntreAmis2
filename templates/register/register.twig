@@ -8,48 +8,124 @@
                 <div class="panel-heading">Inscription</div>
 
                 <div class="panel-body">
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
-                    {{ form_end(form) }}
-                    {#<form class="form-horizontal" method="POST" action="{{ url('register') }}">
+                    <form class="form-horizontal" method="POST" action="#" name="user">
 
-                        <div class="form-group{% if errors.has('name') %}has-error{% endif %}">
+                        {{ form_row(form._token) }}
+
+                        <div class="form-group{% if form_errors(form.firstName) %}has-error{% endif %}">
+                            <div class="col-md-4 control-label">
+                                {{ form_label(form.firstName) }}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{ form_widget(form.firstName) }}
+
+                                {% if form_errors(form.firstName) %}
+                                    <span class="help-block">
+                                            <strong>{{ form_errors(form.firstName) }}</strong>
+                                        </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group{% if form_errors(form.lastName) %}has-error{% endif %}">
+                            <div class="col-md-4 control-label">
+                                {{ form_label(form.lastName) }}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{ form_widget(form.lastName) }}
+
+                                {% if form_errors(form.lastName) %}
+                                    <span class="help-block">
+                                            <strong>{{ form_errors(form.lastName) }}</strong>
+                                        </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="form-group{% if form_errors(form.email) %}has-error{% endif %}">
+                            <div class="col-md-4 control-label">
+                                {{ form_label(form.email) }}
+                            </div>
+
+                            <div class="col-md-6">
+                                {{ form_widget(form.email) }}
+
+                                {% if form_errors(form.email) %}
+                                    <span class="help-block">
+                                            <strong>{{ form_errors(form.email) }}</strong>
+                                        </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% for passwordFiled in form.password %}
+                            <div class="form-group{% if form_errors(passwordFiled) %}has-error{% endif %}">
+                                <div class="col-md-4 control-label">
+                                    {{ form_label(passwordFiled) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_widget(passwordFiled) }}
+
+                                    {% if form_errors(passwordFiled) %}
+                                        <span class="help-block">
+                                            <strong>{{ form_errors(passwordFiled) }}</strong>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-md-offset-10">
+                                {{ form_widget(form.submit) }}
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                    {#<form class="form-horizontal" method="POST" action="{{ url('register') }}" name="user">
+
+                        <div class="form-group{% if errors.name is defined %}has-error{% endif %}">
                             <label for="name" class="col-md-4 control-label">Nom</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{% if name %}{{ name }}{% endif %}" required autofocus>
+                                <input id="name" type="text" class="form-control" name="name" value="{% if name is defined %}{{ name }}{% endif %}" required autofocus>
 
-                                {% if errors.has('email')%}
+                                {% if errors.name is defined %}
                                 <span class="help-block">
-                                        <strong>{{ errors.first('name') }}</strong>
+                                        <strong>{{ errors.name }}</strong>
                                     </span>
                                 {% endif %}
                             </div>
                         </div>
 
-                        <div class="form-group {% if errors.has('email') %}has-error{% endif %}">
+                        <div class="form-group {% if errors.email is defined %}has-error{% endif %}">
                             <label for="email" class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{% if email %}{{ email }}{% endif %}" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="{% if email is defined %}{{ email }}{% endif %}" required autofocus>
 
-                                {% if errors.has('email')%}
+                                {% if errors.email is defined %}
                                     <span class="help-block">
-                                        <strong>{{ errors.first('email') }}</strong>
+                                        <strong>{{ errors.email }}</strong>
                                     </span>
                                 {% endif %}
                             </div>
                         </div>
 
-                        <div class="form-group {% if errors.has('password') %}has-error{% endif %}">
+                        <div class="form-group {% if errors.password is defined %}has-error{% endif %}">
                             <label for="password" class="col-md-4 control-label">Mot de passe</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control" name="password" required>
 
-                                {% if errors.has('password') %}
+                                {% if errors.password is defined %}
                                     <span class="help-block">
-                                        <strong>{{ errors.first('password') }}</strong>
+                                        <strong>{{ errors.password }}</strong>
                                     </span>
                                 {% endif %}
                             </div>
@@ -71,6 +147,8 @@
                             </div>
                         </div>
                     </form>#}
+
+
                 </div>
             </div>
         </div>
