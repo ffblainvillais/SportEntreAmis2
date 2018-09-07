@@ -9,3 +9,7 @@ login:
 logout:
     path: /deconnexion
     controller: App\UserBundle\Controller\LoginController::logoutAction
+
+user:
+    path: /user
+    controller: App\UserBundle\Controller\UserController::indexAction

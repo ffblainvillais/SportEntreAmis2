@@ -30,7 +30,7 @@
                     <li><a href="{{ url('login') }}">Connexion</a></li>
                 {% else %}
                     <li class="dropdown">
-                        <a href="#">
+                        <a href="{{ url('user') }}">
                             <i class="fas fa-user"></i> {{ userConnected.firstname }} {#<span class="caret"></span>#}
                         </a>
 

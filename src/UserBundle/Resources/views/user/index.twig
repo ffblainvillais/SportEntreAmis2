@@ -1,4 +1,4 @@
-{% extends 'layout/layout' %}
+{% extends 'layout/layout.twig' %}
 
 {% block content %}
     {{ parent() }}
@@ -9,7 +9,7 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <h2>Bonjour {{ auth_user().name }}</h2>
+                        <h2>Bonjour {{ app.user.firstname }}</h2>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                         {% if not userEstablishment %}
                             <div class="centered">
                                 <p>Vous n'avez pas encore défini votre établissement</p>
-                                <a href="{{ url('user/create-establishment') }}"><button class="btn btn-primary">Créer mon établissement</button></a>
+                                <a href="#"><button class="btn btn-primary">Créer mon établissement</button></a>
                             </div>
                         {% else %}
                             <h3>{{ userEstablishment.name }}</h3>
@@ -37,19 +37,21 @@
                 </div>
             </div>
 
-            <div class="col-md-6">
-                <div class="panel panel-dafault">
-                    <div class="panel panel-heading"> Sports proposes par mon établissement </div>
-                    <div class="panel-body">
-                        {% if not userEstablishment.sports %}
-                            <div>
-                                <p>Vous n'avez pas encore ajouté de sports a votre établissement</p>
-                            </div>
-                        {% else %}
-                        {% endif %}
+            {% if userEstablishment %}
+                <div class="col-md-6">
+                    <div class="panel panel-dafault">
+                        <div class="panel panel-heading"> Sports proposes par mon établissement </div>
+                        <div class="panel-body">
+                            {% if not userEstablishment.sports %}
+                                <div>
+                                    <p>Vous n'avez pas encore ajouté de sports a votre établissement</p>
+                                </div>
+                            {% else %}
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
 
             <div class="col-md-12">
                 <div class="panel panel-dafault">
