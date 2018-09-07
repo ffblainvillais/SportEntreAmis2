@@ -14,7 +14,7 @@ framework:
     php_errors:
         log: true
 
-    csrf_protection: ~
+    csrf_protection: { enabled: true }
 
     cache:
         # Put the unique name of your app here: the prefix seed

@@ -1,4 +1,4 @@
-{% extends 'layout/layout' %}
+{% extends 'layout/layout.twig' %}
 
 {% block content %}
 <div class="container">
@@ -8,34 +8,30 @@
                 <div class="panel-heading">Connexion</div>
 
                 <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ url('login') }}">
-                        {{ csrf_field() }}
 
-                        <div class="form-group {% if errors.has('email') %}has-error{% endif %}">
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error.message }}
+                        </div>
+                    {% endif %}
+
+                    <form class="form-horizontal" method="POST" action="{{ url('login') }}">
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
+                        <div class="form-group">
                              <label for="email" class="col-md-4 control-label">Email</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{% if email %}{{ email }}{% endif %}" required autofocus>
-
-                                {% if errors.has('email')%}
-                                    <span class="help-block">
-                                        <strong>{{ errors.first('email') }}</strong>
-                                    </span>
-                                {% endif %}
+                                <input id="email" type="email" class="form-control" name="_username" value="{% if email is defined %}{{ email }}{% endif %}" required autofocus>
                             </div>
                         </div>
 
-                        <div class="form-group {% if errors.has('password') %}has-error{% endif %}">
+                        <div class="form-group">
                             <label for="password" class="col-md-4 control-label">Mot de passe</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                {% if errors.has('password') %}
-                                <span class="help-block">
-                                        <strong>{{ errors.first('password') }}</strong>
-                                    </span>
-                                {% endif %}
+                                <input id="password" type="password" class="form-control" name="_password" required>
                             </div>
                         </div>
 
@@ -43,7 +39,7 @@
                             <div class="col-md-6 col-md-offset-4">
                                 <div class="checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember" {% if remember %} checked {% endif %}> Se souvenir de moi
+                                        <input type="checkbox" name="remember" {% if remember is defined %} checked {% endif %}> Se souvenir de moi
                                     </label>
                                 </div>
                             </div>
@@ -55,7 +51,7 @@
                                     Connexion
                                 </button>
 
-                                <a class="btn btn-link" href="{{ url('password/reset') }}">
+                                <a class="btn btn-link" href="#">
                                     J'ai oublié mon mot de passe
                                 </a>
                             </div>

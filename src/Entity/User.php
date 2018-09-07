@@ -45,6 +45,13 @@ class User implements  UserInterface
     /**
      * @var string
      *
+     * @ORM\Column(type="string", unique=true)
+     */
+    private $username;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(type="string")
      */
     private $password;
@@ -89,7 +96,7 @@ class User implements  UserInterface
 
     public function getUsername()
     {
-        return null;
+        return $this->email;
     }
 
     public function getEmail()
@@ -99,7 +106,8 @@ class User implements  UserInterface
 
     public function setEmail($email)
     {
-        $this->email = $email;
+        $this->email        = $email;
+        $this->username     = $email;
     }
 
     public function getPassword()

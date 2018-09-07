@@ -8,3 +8,11 @@ index:
 register:
     path: /inscription
     controller: App\Controller\RegisterController::registerAction
+
+login:
+    path: /connexion
+    controller: App\Controller\LoginController::loginAction
+
+logout:
+    path: /deconnexion
+    controller: App\Controller\LoginController::logoutAction

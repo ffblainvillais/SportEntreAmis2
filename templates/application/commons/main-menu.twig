@@ -24,13 +24,14 @@
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
 
-                {% set userConnected = false %}
+                {% set userConnected = app.user %}
+
                 {% if not userConnected %}
-                    <li><a href="{{ url('register') }}">Connexion</a></li>
+                    <li><a href="{{ url('login') }}">Connexion</a></li>
                 {% else %}
                     <li class="dropdown">
                         <a href="#">
-                            <i class="fas fa-user"></i> {{ name }} {#<span class="caret"></span>#}
+                            <i class="fas fa-user"></i> {{ userConnected.firstname }} {#<span class="caret"></span>#}
                         </a>
 
                         {#<ul class="dropdown-menu">
@@ -47,7 +48,7 @@
                             </li>
                         </ul>#}
                     </li>
-                    <li><a href="#"> Deconnexion</a></li>
+                    <li><a href="{{ url('logout') }}"> Deconnexion</a></li>
 
                 {% endif %}
             </ul>
