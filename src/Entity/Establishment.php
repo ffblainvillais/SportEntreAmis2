@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EstablishmentRepository")
@@ -61,10 +62,24 @@ class Establishment
 
     /**
      * One Establishment has One User.
+     *
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="establishment")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
+
+    /**
+     * One Establishment has Many Ground.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Ground", mappedBy="establishment")
+     */
+    private $grounds;
+
+
+    public function __construct()
+    {
+        $this->grounds = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -72,14 +87,6 @@ class Establishment
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**
@@ -192,6 +199,40 @@ class Establishment
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * Get Grounds
+     * @return ArrayCollection
+     */
+    function getGrounds()
+    {
+        return $this->grounds;
+    }
+
+    /**
+     * Add Ground into Establishment
+     *
+     * @param \App\Entity\Ground $ground
+     * @return Establishment
+     */
+    public function addGroup(Ground $ground)
+    {
+        $this->grounds[] = $ground;
+
+        return $this;
+    }
+
+    /**
+     * Remove Ground from Establishment
+     * @param \App\Entity\Ground $ground
+     * @return Establishment
+     */
+    public function removeGroup(Ground $ground)
+    {
+        $this->grounds->removeElement($ground);
+
+        return $this;
     }
 
 }
