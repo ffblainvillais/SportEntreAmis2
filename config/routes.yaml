@@ -21,4 +21,9 @@ user:
     path: /user
     controller: App\Controller\UserController::indexAction
 
+establishment:
+    path: /user/etablissement
+    controller: App\Controller\UserController::establishmentAction
+
+
 

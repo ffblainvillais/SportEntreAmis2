@@ -1,12 +1,12 @@
 <?php
 
-namespace App\EstablishmentBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="establishment")
+ * @ORM\Entity(repositoryClass="App\Repository\EstablishmentRepository")
+ * @ORM\Table(name="establishments")
  */
 class Establishment
 {
@@ -61,8 +61,8 @@ class Establishment
 
     /**
      * One Establishment has One User.
-     * @OneToOne(targetEntity="User", inversedBy="establishment")
-     * @JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="establishment")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 

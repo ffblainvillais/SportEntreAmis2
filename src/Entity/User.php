@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="user")
+ * @ORM\Table(name="users")
  * @UniqueEntity(fields="email", message="Email déjà utilisé")
  */
 class User implements  UserInterface
@@ -55,6 +55,13 @@ class User implements  UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * One User have One Establishment.
+     * @ORM\OneToOne(targetEntity="App\Entity\Establishment", inversedBy="user")
+     * @ORM\JoinColumn(name="establishment_id", referencedColumnName="id")
+     */
+    private $establishment;
 
 
     public function getId()
@@ -165,6 +172,22 @@ class User implements  UserInterface
     public function unserialize($serialized)
     {
         //[$this->id, $this->username, $this->password] = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstablishment()
+    {
+        return $this->establishment;
+    }
+
+    /**
+     * @param mixed $establishment
+     */
+    public function setEstablishment(Establishment $establishment)
+    {
+        $this->establishment = $establishment;
     }
 
 }
