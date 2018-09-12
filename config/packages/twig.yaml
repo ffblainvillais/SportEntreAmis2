@@ -1,7 +1,4 @@
 twig:
-    paths:
-        '%kernel.project_dir%/templates': App
-        '%kernel.project_dir%/src/UserBundle/Resources/views': User
-
+    paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'

@@ -2,7 +2,7 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         database_users:
-            entity: { class: App\UserBundle\Entity\User, property: username }
+            entity: { class: App\Entity\User, property: username }
 
     firewalls:
         dev:
@@ -37,5 +37,5 @@ security:
         - { path: ^/user, roles: ROLE_USER }
 
     encoders:
-        App\UserBundle\Entity\User:
+        App\Entity\User:
             algorithm: bcrypt

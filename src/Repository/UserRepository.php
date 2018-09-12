@@ -1,8 +1,8 @@
 <?php
 
-namespace App\UserBundle\Repository;
+namespace App\Repository;
 
-use App\UserBundle\Entity\User;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
