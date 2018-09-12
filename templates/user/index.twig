@@ -41,11 +41,12 @@
             {% if userEstablishment %}
                 <div class="col-md-6">
                     <div class="panel panel-dafault">
-                        <div class="panel panel-heading"> Sports proposes par mon établissement </div>
+                        <div class="panel panel-heading"> Mes terrains de sports</div>
                         <div class="panel-body">
-                            {% if not true %}
-                                <div>
+                            {% if userEstablishment.grounds is empty %}
+                                <div class="centered">
                                     <p>Vous n'avez pas encore ajouté de sports a votre établissement</p>
+                                    <a href="{{ url('ground') }}"><button class="btn btn-primary">Créer un terrain</button></a>
                                 </div>
                             {% else %}
                             {% endif %}

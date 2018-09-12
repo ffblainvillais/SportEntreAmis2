@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Establishment;
+use App\Entity\Ground;
 use App\Form\EstablishmentType;
+use App\Form\GroundType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,7 +20,7 @@ class UserController extends AbstractController
             ->getEstablishementOfUser($user);
 
         return $this->render('user/index.twig', [
-            'userEstablishment' => $establishment
+            'userEstablishment' => $establishment,
         ]);
     }
 
@@ -49,6 +51,32 @@ class UserController extends AbstractController
         return $this->render(
             'user/establishment.twig',
             array('form' => $establishmentForm->createView())
+        );
+    }
+
+    public function groundAction(Request $request)
+    {
+        $establishment  = $this->getUser()->getEstablishment();
+
+        $ground     = new Ground();
+        $groundForm = $this->createForm(GroundType::class, $ground);
+
+        $groundForm->handleRequest($request);
+
+        if ($groundForm->isSubmitted() && $groundForm->isValid()) {
+
+            $ground->setEstablishment($establishment);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($ground);
+            $em->flush();
+
+            return $this->redirectToRoute('user');
+        }
+
+        return $this->render(
+            'user/ground.twig',
+            array('form' => $groundForm->createView())
         );
     }
 }

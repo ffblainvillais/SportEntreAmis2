@@ -1,0 +1,63 @@
+{% extends 'layout/layout.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h4><a href="{{ url('user') }}"><i class="fas fa-chevron-left"></i> Espace utilisateur</a></h4>
+
+                <div class="panel panel-info">
+                    <div class="panel panel-heading"> Information terrain </div>
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="POST" action="#" name="ground">
+
+                            {{ form_row(form._token) }}
+
+                            <div class="form-group{% if form_errors(form.number) %}has-error{% endif %}">
+                                <div class="col-md-4 control-label">
+                                    {{ form_label(form.number) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_widget(form.number) }}
+
+                                    {% if form_errors(form.number) %}
+                                        <span class="help-block">
+                                            <strong>{{ form_errors(form.number) }}</strong>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="form-group{% if form_errors(form.sport) %}has-error{% endif %}">
+                                <div class="col-md-4 control-label">
+                                    {{ form_label(form.sport) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_widget(form.sport) }}
+
+                                    {% if form_errors(form.sport) %}
+                                        <span class="help-block">
+                                            <strong>{{ form_errors(form.sport) }}</strong>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-6 col-md-offset-10">
+                                    {{ form_widget(form.submit) }}
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

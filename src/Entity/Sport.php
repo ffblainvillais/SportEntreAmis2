@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="")
+ * @ORM\Entity(repositoryClass="App\Repository\SportRepository")
  * @ORM\Table(name="sports")
  */
 class Sport
@@ -48,4 +48,8 @@ class Sport
         $this->name = $name;
     }
 
+    public  function __toString()
+    {
+        return $this->name;
+    }
 }
