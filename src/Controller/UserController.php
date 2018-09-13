@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Day;
 use App\Entity\Establishment;
 use App\Entity\Ground;
 use App\Form\EstablishmentType;
@@ -22,10 +23,7 @@ class UserController extends AbstractController
 
     public function indexAction()
     {
-        $user           = $this->getUser();
-        $establishment  = $this->getDoctrine()
-            ->getRepository(Establishment::class)
-            ->getEstablishementOfUser($user);
+        $establishment = $this->getUser()->getEstablishment();
 
         return $this->render('user/index.twig', [
             'userEstablishment' => $establishment,
@@ -36,7 +34,7 @@ class UserController extends AbstractController
     public function establishmentAction(Request $request)
     {
         $user           = $this->getUser();
-        $establishment  = $this->getDoctrine()->getRepository(Establishment::class)->getEstablishementOfUser($user);
+        $establishment  = $user->getEstablishment();
 
         if (!$establishment) {
             $establishment = new Establishment();
@@ -60,6 +58,20 @@ class UserController extends AbstractController
         return $this->render(
             'user/establishment.twig',
             array('form' => $establishmentForm->createView())
+        );
+    }
+
+    public function openingHoursAction()
+    {
+        $establishment  = $this->getUser()->getEstablishment();
+        $days           = $this->getDoctrine()->getRepository(Day::class)->findAll();
+
+        return $this->render(
+            'user/opening-hours.twig',
+            array(
+                'establishment' => $establishment,
+                'days'          => $days,
+            )
         );
     }
 
