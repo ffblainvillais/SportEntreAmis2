@@ -56,8 +56,7 @@ class Establishment
     /**
      * One Establishment has One User.
      *
-     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="establishment")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="establishment")
      */
     private $user;
 
