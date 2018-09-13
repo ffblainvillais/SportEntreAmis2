@@ -21,17 +21,18 @@
                         {% if not userEstablishment %}
                             <div class="centered">
                                 <p>Vous n'avez pas encore défini votre établissement</p>
-                                <a href="#"><button class="btn btn-primary">Créer mon établissement</button></a>
+                                <a href="{{ url('establishment') }}"><button class="btn btn-primary">Créer mon établissement</button></a>
                             </div>
                         {% else %}
                             <h3>{{ userEstablishment.name }}</h3>
 
                             <p><i class="fas fa-phone"></i> {{ userEstablishment.phone }}</p>
-                            <p><i class="fas fa-map-marked"></i> {{ userEstablishment.address }} {{ userEstablishment.postal_code }} {{ userEstablishment.city }}</p>
-                            <p><i class="fas fa-door-open"></i> horaires d'ouverture</p>
+                            <p><i class="fas fa-map-marked"></i> {{ userEstablishment.address }} {{ userEstablishment.postalCode }} {{ userEstablishment.city }}</p>
+                            <p><i class="fas fa-door-open"></i> {{ userEstablishment.openingHours }}</p>
 
-                            <button class="btn btn-danger">Modifier</button>
-
+                            <div class="col-md-3 col-md-offset-10">
+                                <a href="{{ url('establishment') }}"> <button class="btn btn-danger">Modifier</button> </a>
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -39,22 +40,38 @@
 
             {% if userEstablishment %}
                 <div class="col-md-6">
-                    <div class="panel panel-dafault">
-                        <div class="panel panel-heading"> Sports proposes par mon établissement </div>
+                    <div class="panel panel-default">
+                        <div class="panel panel-heading"> Mes terrains de sports</div>
                         <div class="panel-body">
-                            {% if not userEstablishment.sports %}
-                                <div>
-                                    <p>Vous n'avez pas encore ajouté de sports a votre établissement</p>
-                                </div>
+                            {% if groundsPerSport is not empty %}
+                                {% for sport, grounds in groundsPerSport %}
+
+                                   <div class="card col-md-6">
+                                        <div class="card-header">
+                                            <h4>{{ sport }}</h4>
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            {% for ground in grounds %}
+                                                <li class="list-group-item">Terrain {{ ground.number }} <a href="{{ url('remove-ground', {groundId : ground.id}) }}"><i class="fas fa-times"></i></a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+
+                                {% endfor %}
                             {% else %}
+                                <div>Vous n'avez pas encore ajouté de sports a votre établissement</div>
                             {% endif %}
+
+                            <div class="col-md-4 col-md-offset-9">
+                                <a href="{{ url('ground') }}"><button class="btn btn-primary">Créer un terrain</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>
             {% endif %}
 
             <div class="col-md-12">
-                <div class="panel panel-dafault">
+                <div class="panel panel-default">
                     <div class="panel panel-heading"> Historique des réservations </div>
                     <div class="panel-body">
 
