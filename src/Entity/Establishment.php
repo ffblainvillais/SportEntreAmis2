@@ -54,13 +54,6 @@ class Establishment
     private $phone;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     */
-    private $openingHours;
-
-    /**
      * One Establishment has One User.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="establishment")
@@ -75,10 +68,18 @@ class Establishment
      */
     private $grounds;
 
+    /**
+     * One Establishment has Many OpeningHours.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\OpeningHour", mappedBy="establishment")
+     */
+    private $openingHours;
+
 
     public function __construct()
     {
-        $this->grounds = new ArrayCollection();
+        $this->grounds      = new ArrayCollection();
+        $this->openingHours = new ArrayCollection();
     }
 
     /**
@@ -170,22 +171,6 @@ class Establishment
     }
 
     /**
-     * @return string
-     */
-    public function getOpeningHours()
-    {
-        return $this->openingHours;
-    }
-
-    /**
-     * @param string $openingHours
-     */
-    public function setOpeningHours($openingHours)
-    {
-        $this->openingHours = $openingHours;
-    }
-
-    /**
      * @return mixed
      */
     public function getUser()
@@ -203,6 +188,7 @@ class Establishment
 
     /**
      * Get Grounds
+     *
      * @return ArrayCollection
      */
     function getGrounds()
@@ -216,7 +202,7 @@ class Establishment
      * @param \App\Entity\Ground $ground
      * @return Establishment
      */
-    public function addGroup(Ground $ground)
+    public function addGround(Ground $ground)
     {
         $this->grounds[] = $ground;
 
@@ -225,12 +211,49 @@ class Establishment
 
     /**
      * Remove Ground from Establishment
+     *
      * @param \App\Entity\Ground $ground
      * @return Establishment
      */
-    public function removeGroup(Ground $ground)
+    public function removeGround(Ground $ground)
     {
         $this->grounds->removeElement($ground);
+
+        return $this;
+    }
+
+    /**
+     * Get Grounds
+     *
+     * @return ArrayCollection
+     */
+    function getOpeningHours()
+    {
+        return $this->openingHours;
+    }
+
+    /**
+     * Add OpeningHour into Establishment
+     *
+     * @param \App\Entity\OpeningHour $openingHour
+     * @return Establishment
+     */
+    public function addOpeningHour(OpeningHour $openingHour)
+    {
+        $this->openingHours[] = $openingHour;
+
+        return $this;
+    }
+
+    /**
+     * Remove OpeningHour from Establishment
+     *
+     * @param \App\Entity\OpeningHour $openingHour
+     * @return Establishment
+     */
+    public function removeOpeningHour(OpeningHour $openingHour)
+    {
+        $this->openingHours->removeElement($openingHour);
 
         return $this;
     }
