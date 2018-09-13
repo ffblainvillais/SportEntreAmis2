@@ -29,5 +29,9 @@ ground:
     path: /user/terrain
     controller: App\Controller\UserController::groundAction
 
+remove-ground:
+    path: /user/suppression-terrain/{groundId}
+    controller: App\Controller\UserController::removeGroundAction
+
 
 

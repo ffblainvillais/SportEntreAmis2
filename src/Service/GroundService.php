@@ -34,5 +34,11 @@ class GroundService
         return $GroundsBySports;
     }
 
+    public function removeGround(Ground $ground)
+    {
+        $this->em->remove($ground);
+        $this->em->flush();
+    }
+
 
 }

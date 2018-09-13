@@ -13,7 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends AbstractController
 {
 
-    public function indexAction(GroundService $groundService)
+    protected $groundService;
+
+    public function __construct(GroundService $groundService)
+    {
+        $this->groundService = $groundService;
+    }
+
+    public function indexAction()
     {
         $user           = $this->getUser();
         $establishment  = $this->getDoctrine()
@@ -22,7 +29,7 @@ class UserController extends AbstractController
 
         return $this->render('user/index.twig', [
             'userEstablishment' => $establishment,
-            'groundsPerSport'   => $groundService->getGroundMappedBySportForEstablishment($establishment),
+            'groundsPerSport'   => $this->groundService->getGroundMappedBySportForEstablishment($establishment),
         ]);
     }
 
@@ -80,5 +87,15 @@ class UserController extends AbstractController
             'user/ground.twig',
             array('form' => $groundForm->createView())
         );
+    }
+
+    public function removeGroundAction(Request $request)
+    {
+        $groundId   = $request->attributes->get('groundId');
+        $ground     = $this->getDoctrine()->getRepository(Ground::class)->find($groundId);
+
+        $this->groundService->removeGround($ground);
+
+        return $this->redirectToRoute('user');
     }
 }

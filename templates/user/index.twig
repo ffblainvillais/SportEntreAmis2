@@ -40,28 +40,29 @@
 
             {% if userEstablishment %}
                 <div class="col-md-6">
-                    <div class="panel panel-dafault">
+                    <div class="panel panel-default">
                         <div class="panel panel-heading"> Mes terrains de sports</div>
                         <div class="panel-body">
                             {% if groundsPerSport is not empty %}
                                 {% for sport, grounds in groundsPerSport %}
 
-                                    <div class="card">
+                                   <div class="card col-md-6">
                                         <div class="card-header">
-                                            {{ sport }}
+                                            <h4>{{ sport }}</h4>
                                         </div>
                                         <ul class="list-group list-group-flush">
                                             {% for ground in grounds %}
-                                                <li class="list-group-item">Terrain {{ ground.number }}</li>
+                                                <li class="list-group-item">Terrain {{ ground.number }} <a href="{{ url('remove-ground', {groundId : ground.id}) }}"><i class="fas fa-times"></i></a></li>
                                             {% endfor %}
                                         </ul>
                                     </div>
+
                                 {% endfor %}
                             {% else %}
-                                <p>Vous n'avez pas encore ajouté de sports a votre établissement</p>
+                                <div>Vous n'avez pas encore ajouté de sports a votre établissement</div>
                             {% endif %}
 
-                            <div class="centered">
+                            <div class="col-md-4 col-md-offset-9">
                                 <a href="{{ url('ground') }}"><button class="btn btn-primary">Créer un terrain</button></a>
                             </div>
                         </div>
@@ -70,7 +71,7 @@
             {% endif %}
 
             <div class="col-md-12">
-                <div class="panel panel-dafault">
+                <div class="panel panel-default">
                     <div class="panel panel-heading"> Historique des réservations </div>
                     <div class="panel-body">
 
