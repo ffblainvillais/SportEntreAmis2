@@ -43,13 +43,27 @@
                     <div class="panel panel-dafault">
                         <div class="panel panel-heading"> Mes terrains de sports</div>
                         <div class="panel-body">
-                            {% if userEstablishment.grounds is empty %}
-                                <div class="centered">
-                                    <p>Vous n'avez pas encore ajouté de sports a votre établissement</p>
-                                    <a href="{{ url('ground') }}"><button class="btn btn-primary">Créer un terrain</button></a>
-                                </div>
+                            {% if groundsPerSport is not empty %}
+                                {% for sport, grounds in groundsPerSport %}
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            {{ sport }}
+                                        </div>
+                                        <ul class="list-group list-group-flush">
+                                            {% for ground in grounds %}
+                                                <li class="list-group-item">Terrain {{ ground.number }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endfor %}
                             {% else %}
+                                <p>Vous n'avez pas encore ajouté de sports a votre établissement</p>
                             {% endif %}
+
+                            <div class="centered">
+                                <a href="{{ url('ground') }}"><button class="btn btn-primary">Créer un terrain</button></a>
+                            </div>
                         </div>
                     </div>
                 </div>

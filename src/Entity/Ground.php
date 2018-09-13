@@ -26,14 +26,14 @@ class Ground
 
     /**
      * One Ground serves only one sport.
-     * @ORM\OneToOne(targetEntity="App\Entity\Sport")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Sport")
      * @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
      */
     private $sport;
 
     /**
      * Many Ground have One Establishment.
-     * @ORM\ManyToOne(targetEntity="Establishment", inversedBy="grounds")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Establishment", inversedBy="grounds")
      * @ORM\JoinColumn(name="establishment_id", referencedColumnName="id")
      */
     private $establishment;

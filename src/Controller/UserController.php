@@ -6,13 +6,14 @@ use App\Entity\Establishment;
 use App\Entity\Ground;
 use App\Form\EstablishmentType;
 use App\Form\GroundType;
+use App\Service\GroundService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
 
-    public function indexAction()
+    public function indexAction(GroundService $groundService)
     {
         $user           = $this->getUser();
         $establishment  = $this->getDoctrine()
@@ -21,6 +22,7 @@ class UserController extends AbstractController
 
         return $this->render('user/index.twig', [
             'userEstablishment' => $establishment,
+            'groundsPerSport'   => $groundService->getGroundMappedBySportForEstablishment($establishment),
         ]);
     }
 
