@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 
 class EstablishmentType extends AbstractType
 {
@@ -20,7 +20,7 @@ class EstablishmentType extends AbstractType
             ->add('address', TextType::class, array('label' => 'Nom et numéro de rue', 'attr' => array('class' => 'form-control')))
             ->add('postalcode', IntegerType::class, array('label' => 'Code postal', 'attr' => array('class' => 'form-control')))
             ->add('city', TextType::class, array('label' => 'Ville', 'attr' => array('class' => 'form-control')))
-            ->add('phone', IntegerType::class, array('label' => 'Téléphone', 'attr' => array('class' => 'form-control')))
+            ->add('phone', TelType::class, array('label' => 'Téléphone', 'attr' => array('class' => 'form-control')))
 
             ->add('submit', SubmitType::class, array('label' => 'Valider', 'attr' => array('class' => 'btn btn-primary' )))
         ;
