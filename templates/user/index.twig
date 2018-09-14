@@ -28,7 +28,18 @@
 
                             <p><i class="fas fa-phone"></i> {{ userEstablishment.phone }}</p>
                             <p><i class="fas fa-map-marked"></i> {{ userEstablishment.address }} {{ userEstablishment.postalCode }} {{ userEstablishment.city }}</p>
-                            <p><i class="fas fa-door-open"></i> {{ userEstablishment.openingHours }}</p>
+
+                                {% if userEstablishment.openingHours is empty %}
+                                <div class="centered">
+                                    <p>Vous n'avez pas encore défini d'horaires d'ouverture</p>
+                                    <a href="{{ url('opening-hours') }}"><button class="btn btn-primary">Ajouter horaire d'ouverture</button></a>
+                                </div>
+                                {% else %}
+                                    <p>
+                                        <i class="fas fa-door-open"></i>
+                                    </p>
+                                {% endif %}
+                                {#{{ userEstablishment.openingHours }}#}
 
                             <div class="col-md-3 col-md-offset-10">
                                 <a href="{{ url('establishment') }}"> <button class="btn btn-danger">Modifier</button> </a>
@@ -59,7 +70,7 @@
 
                                 {% endfor %}
                             {% else %}
-                                <div>Vous n'avez pas encore ajouté de sports a votre établissement</div>
+                                <div>Vous n'avez pas encore ajouté de terrain à votre établissement</div>
                             {% endif %}
 
                             <div class="col-md-4 col-md-offset-9">

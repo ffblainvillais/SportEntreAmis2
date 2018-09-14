@@ -21,7 +21,6 @@ class EstablishmentType extends AbstractType
             ->add('postalcode', IntegerType::class, array('label' => 'Code postal', 'attr' => array('class' => 'form-control')))
             ->add('city', TextType::class, array('label' => 'Ville', 'attr' => array('class' => 'form-control')))
             ->add('phone', IntegerType::class, array('label' => 'Téléphone', 'attr' => array('class' => 'form-control')))
-            ->add('openingHours', TextareaType::class, array('label' => "Horaires d'ouverture", 'attr' => array('class' => 'form-control')))
 
             ->add('submit', SubmitType::class, array('label' => 'Valider', 'attr' => array('class' => 'btn btn-primary' )))
         ;

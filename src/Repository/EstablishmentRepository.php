@@ -19,9 +19,4 @@ class EstablishmentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Establishment::class);
     }
-
-    public function getEstablishementOfUser(User $user)
-    {
-        return $this->findOneBy(['user' => $user]);
-    }
 }

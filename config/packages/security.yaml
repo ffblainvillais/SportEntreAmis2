@@ -10,8 +10,8 @@ security:
             security: false
         main:
             pattern: ^/
-
             anonymous: true
+            logout_on_user_change: true
 
             form_login:
                 # https://symfony.com/doc/current/security/form_login_setup.html
