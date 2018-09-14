@@ -29,6 +29,10 @@ establishment:
     path: /user/etablissement
     controller: App\Controller\UserController::establishmentAction
 
+opening-hours:
+    path: /user/etablissement/horaire-ouverture
+    controller: App\Controller\UserController::openingHoursAction
+
 ground:
     path: /user/terrain
     controller: App\Controller\UserController::groundAction

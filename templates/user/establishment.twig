@@ -96,22 +96,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group{% if form_errors(form.openingHours) %}has-error{% endif %}">
-                                <div class="col-md-4 control-label">
-                                    {{ form_label(form.openingHours) }}
-                                </div>
-
-                                <div class="col-md-6">
-                                    {{ form_widget(form.openingHours) }}
-
-                                    {% if form_errors(form.openingHours) %}
-                                        <span class="help-block">
-                                            <strong>{{ form_errors(form.openingHours) }}</strong>
-                                        </span>
-                                    {% endif %}
-                                </div>
-                            </div>
-
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-10">
                                     {{ form_widget(form.submit) }}
