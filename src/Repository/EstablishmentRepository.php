@@ -44,4 +44,24 @@ class EstablishmentRepository extends ServiceEntityRepository
 
         return $establishments;
     }
+
+    public function getSportAvailableForEstablishment(Establishment $establishment)
+    {
+        $query = "
+            SELECT DISTINCT s.id
+            FROM `establishments` e
+            LEFT JOIN `grounds` g ON e.id = g.establishment_id
+            LEFT JOIN `sports` s ON g.sport_id = s.id
+            WHERE e.id = :establishmentId
+            ";
+
+        $connexion  = $this->_em->getConnection();
+        $stmt       = $connexion->prepare($query);
+        $stmt->bindValue(':establishmentId', $establishment->getId());
+        $stmt->execute();
+
+        $sports = $stmt->fetchAll();
+
+        return $sports;
+    }
 }
