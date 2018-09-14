@@ -17,9 +17,20 @@ class SearchService
 
     public function searchEstablishment($department, $sports = null)
     {
-        $establishments = $this->em->getRepository(Establishment::class)->getEstablishmentWithPostalCodeAndSport($department);
-        
-        echo "<pre style='background:#fff; color:#000'>";\Doctrine\Common\Util\Debug::dump($establishments);die();
+        $establishments     = $this->em->getRepository(Establishment::class)->getEstablishmentWithPostalCodeAndSport($department, $sports);
+        $establishmentMatch = array();
+
+        foreach ($establishments as $establishment) {
+
+            $establishmentMatch[] = $this->_getEstablishmentById($establishment['id']);
+        }
+
+        return $establishmentMatch;
+    }
+
+    private function _getEstablishmentById($id)
+    {
+        return $this->em->getRepository(Establishment::class)->find($id);
     }
 
 }

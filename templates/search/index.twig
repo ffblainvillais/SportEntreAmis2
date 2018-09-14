@@ -20,14 +20,23 @@
 
                             <div class="search-results">
 
-                                {% for result in results %}
+                                {% for establishment in results %}
                                     <div class="col-sm-6 col-md-4">
                                         <div class="thumbnail">
                                             <img src="..." alt="...">
                                             <div class="caption">
-                                                <h3>Thumbnail label</h3>
-                                                <p>...</p>
-                                                <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                                <h3>{{ establishment.name }}</h3>
+                                                <p>
+                                                    {{ establishment.address }}
+                                                    {{ establishment.postalCode }}
+                                                    {{ establishment.city }}
+                                                </p>
+                                                <p>
+                                                    {{ establishment.phone }}
+                                                </p>
+                                                <p class="col-md-offset-6">
+                                                    <a href="#" class="btn btn-primary" role="button">Voir établissement</a>
+                                                </p>
                                             </div>
                                         </div>
                                     </div>

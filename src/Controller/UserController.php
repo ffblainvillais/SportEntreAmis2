@@ -23,11 +23,16 @@ class UserController extends AbstractController
 
     public function indexAction()
     {
-        $establishment = $this->getUser()->getEstablishment();
+        $establishment          = $this->getUser()->getEstablishment();
+        $establishmentGrounds   = null;
+
+        if ($establishment) {
+            $establishmentGrounds   = $this->groundService->getGroundMappedBySportForEstablishment($establishment);
+        }
 
         return $this->render('user/index.twig', [
             'userEstablishment' => $establishment,
-            'groundsPerSport'   => $this->groundService->getGroundMappedBySportForEstablishment($establishment),
+            'groundsPerSport'   => $establishmentGrounds,
         ]);
     }
 
@@ -46,10 +51,11 @@ class UserController extends AbstractController
 
         if ($establishmentForm->isSubmitted() && $establishmentForm->isValid()) {
 
-            $establishment->setUser($user);
+            $user->setEstablishment($establishment);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($establishment);
+            $em->persist($user);
             $em->flush();
 
             return $this->redirectToRoute('user');

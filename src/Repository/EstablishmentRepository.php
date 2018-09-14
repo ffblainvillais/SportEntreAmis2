@@ -27,25 +27,21 @@ class EstablishmentRepository extends ServiceEntityRepository
         return $this->findOneBy(['user' => $user]);
     }
 
-    public function getEstablishmentWithPostalCodeAndSport($department)
+    public function getEstablishmentWithPostalCodeAndSport($department, $sports)
     {
         $query = "
             SELECT DISTINCT e.id
             FROM `establishments` e
             LEFT JOIN `grounds` g ON e.id = g.establishment_id
             LEFT JOIN `sports` s ON g.sport_id = s.id
-            WHERE e.postal_code LIKE :postalCode
+            WHERE s.name IN (?) AND e.postal_code LIKE (?)
             ";
 
         $connexion  = $this->_em->getConnection();
-        $stmt       = $connexion->prepare($query);
-
-        $stmt->bindValue(':postalCode', substr($department,  0, 2) . "%");
-        $stmt->execute();
+        $stmt       = $connexion->executeQuery($query, array($sports, substr($department,  0, 2) . "%"), array(\Doctrine\DBAL\Connection::PARAM_STR_ARRAY, \PDO::PARAM_STR));
         
-        echo "<pre style='background:#fff; color:#000'>";\Doctrine\Common\Util\Debug::dump($stmt->fetchAll());die();
         $establishments = $stmt->fetchAll();
 
-        return $aBookMarks;
+        return $establishments;
     }
 }
