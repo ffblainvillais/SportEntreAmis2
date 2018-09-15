@@ -54,6 +54,13 @@ class Establishment
     private $phone;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50)
+     */
+    private $website;
+
+    /**
      * One Establishment has One User.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="establishment")
@@ -167,6 +174,22 @@ class Establishment
     public function setPhone($phone)
     {
         $this->phone = $phone;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWebsite()
+    {
+        return $this->website;
+    }
+
+    /**
+     * @param string $website
+     */
+    public function setWebsite($website)
+    {
+        $this->website = $website;
     }
 
     /**
