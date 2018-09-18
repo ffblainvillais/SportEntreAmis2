@@ -16,7 +16,14 @@ class SearchService
     {
         $this->em = $entityManager;
     }
-    
+
+    /**
+     * Search Establishment process
+     *
+     * @param string $department
+     * @param null|array $sports
+     * @return array
+     */
     public function searchEstablishment($department, $sports = null)
     {
         $postalCode         = $this->_getPostalCodeFromDepartmentInfo($department);
@@ -62,6 +69,12 @@ class SearchService
         return $postalCode;
     }
 
+    /**
+     * Prepare rendering Establishment and Sport for view
+     *
+     * @param array $establishments
+     * @return array
+     */
     public function mapEstablishmentWithSports($establishments)
     {
         $establishmentsMapped = array();
@@ -79,6 +92,12 @@ class SearchService
         return $establishmentsMapped;
     }
 
+    /**
+     * Return all Sport available in Establishment
+     *
+     * @param Establishment $establishment
+     * @return array
+     */
     private function _getSportAvailableForEstablishment(Establishment $establishment)
     {
         $sportsAvailableIds = $this->em->getRepository(Establishment::class)->getSportAvailableForEstablishment($establishment);
@@ -93,6 +112,12 @@ class SearchService
         return $sportsAvailable;
     }
 
+    /**
+     * Autocomplete department with input
+     *
+     * @param string $part
+     * @return mixed
+     */
     public function autocompleteDepartment($part)
     {
         $department = $this->em->getRepository(Department::class)->autocomplete($part);
@@ -100,6 +125,12 @@ class SearchService
         return $department;
     }
 
+    /**
+     * Prevent Xss with cleaning input
+     *
+     * @param string $param
+     * @return mixed
+     */
     public function cleanInputParam($param)
     {
         $param = filter_var(trim($param), FILTER_SANITIZE_STRING);
@@ -107,11 +138,23 @@ class SearchService
         return $param;
     }
 
+    /**
+     * Return Establishment by id
+     *
+     * @param integer $id
+     * @return null|object
+     */
     private function _getEstablishmentById($id)
     {
         return $this->em->getRepository(Establishment::class)->find($id);
     }
 
+    /**
+     * Return Sport by id
+     *
+     * @param integer $id
+     * @return null|object
+     */
     private function _getSportById($id)
     {
         return $this->em->getRepository(Sport::class)->find($id);

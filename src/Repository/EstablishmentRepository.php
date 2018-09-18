@@ -3,18 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Establishment;
-use App\Entity\Ground;
 use App\Entity\Sport;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class EstablishmentRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
@@ -22,11 +15,25 @@ class EstablishmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Establishment::class);
     }
 
+    /**
+     * Return Establishment of User
+     *
+     * @param User $user
+     * @return null|object
+     */
     public function getEstablishementOfUser(User $user)
     {
         return $this->findOneBy(['user' => $user]);
     }
 
+    /**
+     * Return Establishment available for department and Sports
+     *
+     * @param string $postalCode
+     * @param null|array $sports
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function getEstablishmentWithPostalCodeAndSport($postalCode, $sports = null)
     {
         $query = "
@@ -38,7 +45,7 @@ class EstablishmentRepository extends ServiceEntityRepository
             ";
 
         if (!$sports) {
-            $sports = $this->_getAllSportsName();
+            $sports = $this->_em->getRepository(Sport::class)->getAllSportsName();
         }
 
         $connexion  = $this->_em->getConnection();
@@ -49,6 +56,13 @@ class EstablishmentRepository extends ServiceEntityRepository
         return $establishments;
     }
 
+    /**
+     * Return Sports available for an Establishment
+     *
+     * @param Establishment $establishment
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
     public function getSportAvailableForEstablishment(Establishment $establishment)
     {
         $query = "
@@ -67,17 +81,5 @@ class EstablishmentRepository extends ServiceEntityRepository
         $sports = $stmt->fetchAll();
 
         return $sports;
-    }
-
-    private function _getAllSportsName()
-    {
-        $sportsName = array();
-        $sports     = $this->_em->getRepository(Sport::class)->findAll();
-
-        foreach ($sports as $sport) {
-            $sportsName[] = $sport->getName();
-        }
-
-        return $sportsName;
     }
 }

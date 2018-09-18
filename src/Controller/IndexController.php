@@ -32,8 +32,15 @@ class IndexController extends Controller
         $department     = $request->query->get('department');
         $sportsSelected = $request->query->get('sport');
 
-        $establishments                 = $this->searchService->searchEstablishment($department, $sportsSelected);
-        $establishmentsMappedWithSports = $this->searchService->mapEstablishmentWithSports($establishments);
+        if ($department) {
+
+            $establishments                 = $this->searchService->searchEstablishment($department, $sportsSelected);
+            $establishmentsMappedWithSports = $this->searchService->mapEstablishmentWithSports($establishments);
+
+        } else {
+
+            $establishmentsMappedWithSports = array();
+        }
 
         return $this->render('search/index.twig', array(
             'results'           => $establishmentsMappedWithSports,

@@ -13,6 +13,12 @@ class DepartmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Department::class);
     }
 
+    /**
+     * Autocomplete proposes a department by verifying $part match the code or the name
+     *
+     * @param string $part
+     * @return array|null
+     */
     public function autocomplete($part)
     {
         $qb = $this->getEntityManager()->createQueryBuilder();
