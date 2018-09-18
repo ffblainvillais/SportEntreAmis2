@@ -11,7 +11,7 @@
         <div class="input-group">
 
             <span class="input-group-addon" id="sizing-addon1"><i class="fas fa-search"></i></span>
-            <input type="text" class="form-control" placeholder="ex : Calvados" name="department" value="{% if department is defined %}{{ department }}{% endif %}" required autofocus>
+            <input type="text" class="form-control js-search__input" placeholder="ex : Calvados" name="department" data-url="{{ url('autocomlete') }}" value="{% if department is defined %}{{ department }}{% endif %}" required autofocus>
             <span class="input-group-btn">
                 <button class="btn btn-primary" type="submit">Rechercher</button>
             </span>
@@ -21,8 +21,8 @@
         <div class="form-check">
             {% for sport in sports %}
                 <div>
-                    <label class="form-check-label" for="{{ sport }}">{{ sport }}</label>
-                    <input type="checkbox" name="sport[]" class="form-check-input" value="{{ sport }}" {% if sportsSelected is defined and sport in sportsSelected %} ckecked {% endif %}>
+                    <label class="form-check-label" for="{{ sport.name }}">{{ sport.name }}</label>
+                    <input type="checkbox" name="sport[]" class="form-check-input" value="{{ sport }}" {% if sportsSelected is defined and sport.name in sportsSelected %} checked {% endif %}>
                 </div>
             {% endfor %}
         </div>
