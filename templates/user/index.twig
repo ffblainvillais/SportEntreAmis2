@@ -27,6 +27,7 @@
                             <h3>{{ userEstablishment.name }}</h3>
 
                             <p><i class="fas fa-phone"></i> {{ userEstablishment.phone }}</p>
+                            <p><i class="fab fa-internet-explorer"></i> <a href="{{ userEstablishment.website }}">{{ userEstablishment.website }}</a></p>
                             <p><i class="fas fa-map-marked"></i> {{ userEstablishment.address }} {{ userEstablishment.postalCode }} {{ userEstablishment.city }}</p>
 
                                 {% if userEstablishment.openingHours is empty %}
@@ -81,14 +82,16 @@
                 </div>
             {% endif %}
 
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel panel-heading"> Historique des réservations </div>
-                    <div class="panel-body">
+            {% if userEstablishment %}
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel panel-heading"> Historique des réservations </div>
+                        <div class="panel-body">
 
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
 
         </div>
     </div>

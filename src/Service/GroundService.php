@@ -17,6 +17,12 @@ class GroundService
         $this->em = $entityManager;
     }
 
+    /**
+     * get Ground information for view rendering
+     *
+     * @param Establishment $establishment
+     * @return array
+     */
     public function getGroundMappedBySportForEstablishment(Establishment $establishment)
     {
         $GroundsBySports    = array();
@@ -34,6 +40,11 @@ class GroundService
         return $GroundsBySports;
     }
 
+    /**
+     * Remove Ground
+     *
+     * @param Ground $ground
+     */
     public function removeGround(Ground $ground)
     {
         $this->em->remove($ground);

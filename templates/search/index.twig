@@ -1,0 +1,78 @@
+{% extends 'layout/layout.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% include 'application/commons/search-form.twig' with {'sports' : sports} %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% if results is not empty %}
+
+                            <div class="search-results">
+
+                                {% for result in results %}
+
+                                    {% set establishment    = result.establishment %}
+                                    {% set sportsAvailable  = result.sportsAvailable %}
+
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="thumbnail">
+                                            <img src="..." alt="...">
+                                            <div class="caption">
+                                                <h2>{{ establishment.name }}</h2>
+                                                <p>
+                                                    <i class="fas fa-map-marked"></i> {{ establishment.address }} {{ establishment.postalCode }} {{ establishment.city }}
+                                                </p>
+                                                <p>
+                                                    <i class="fas fa-phone"></i> {{ establishment.phone }}
+                                                </p>
+                                                {% if establishment.website %}
+                                                    <p>
+                                                        <i class="fab fa-internet-explorer"></i> <a href="{{ establishment.website }}">{{ establishment.website }}</a>
+                                                    </p>
+                                                {% endif %}
+                                                <p>
+                                                    <h4>Sports disponible</h4>
+                                                    <ul class="">
+                                                        {% for sport in sportsAvailable %}
+                                                            <li>{{ sport.name }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                </p>
+                                                <p class="col-md-offset-6">
+                                                    <a href="#" class="btn btn-primary" role="button">Voir établissement</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+
+                        {% else %}
+
+                            <div class="centered">
+                                <h2>Je n’ai rien trouvé pour votre recherche</h2>
+                                <p>
+                                    Mais pas de panique,<br/>
+                                    réessayez en précisant ou reformulant votre recherche.
+                                </p>
+                            </div>
+
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

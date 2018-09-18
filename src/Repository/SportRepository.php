@@ -8,12 +8,6 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
 class SportRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
@@ -21,8 +15,30 @@ class SportRepository extends ServiceEntityRepository
         parent::__construct($registry, Sport::class);
     }
 
+    /**
+     * Return all Sport
+     *
+     * @return array
+     */
     public function getAllSports()
     {
         return $this->findAll();
+    }
+
+    /**
+     * Return all Sport names
+     *
+     * @return array
+     */
+    public function getAllSportsName()
+    {
+        $sportsName = array();
+        $sports     = $this->findAll();
+
+        foreach ($sports as $sport) {
+            $sportsName[] = $sport->getName();
+        }
+
+        return $sportsName;
     }
 }

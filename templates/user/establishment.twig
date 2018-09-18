@@ -96,6 +96,22 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{% if form_errors(form.website) %}has-error{% endif %}">
+                                <div class="col-md-4 control-label">
+                                    {{ form_label(form.website) }}
+                                </div>
+
+                                <div class="col-md-6">
+                                    {{ form_widget(form.website) }}
+
+                                    {% if form_errors(form.website) %}
+                                        <span class="help-block">
+                                            <strong>{{ form_errors(form.website) }}</strong>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-10">
                                     {{ form_widget(form.submit) }}
