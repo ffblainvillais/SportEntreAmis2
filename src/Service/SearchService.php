@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Department;
 use App\Entity\Establishment;
 use App\Entity\Sport;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,6 +17,8 @@ class SearchService
         $this->em = $entityManager;
     }
 
+    //$department = Calvados
+    // @todo mapper Calvado et 14000 pour rendu uniform
     public function searchEstablishment($department, $sports = null)
     {
         $establishments     = $this->em->getRepository(Establishment::class)->getEstablishmentWithPostalCodeAndSport($department, $sports);
@@ -58,6 +61,20 @@ class SearchService
         }
 
         return $sportsAvailable;
+    }
+
+    public function autocompleteDepartment($part)
+    {
+        $department = $this->em->getRepository(Department::class)->autocomplete($part);
+
+        return $department;
+    }
+
+    public function cleanInputParam($param)
+    {
+        $param = filter_var(trim($param), FILTER_SANITIZE_STRING);
+
+        return $param;
     }
 
     private function _getEstablishmentById($id)

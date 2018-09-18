@@ -41,6 +41,24 @@ class IndexController extends Controller
             'department'        => $department,
             'sportsSelected'    => $sportsSelected,
         ));
+    }
+    
+    public function autocompleteAction(Request $request)
+    {
+        $toComplete = $request->request->get('part');
+        $department = null;
+        $toRender   = array();
 
+        $toCompleteSafe     = $this->searchService->cleanInputParam($toComplete);
+        $autoCompleteRes    = $this->searchService->autocompleteDepartment($toCompleteSafe);
+
+        if (!empty($autoCompleteRes)) {
+
+            foreach ($autoCompleteRes as $res) {
+                $toRender[] = $res['name'];
+            }
+        }
+
+        return $this->json(array('res' => $toRender));
     }
 }

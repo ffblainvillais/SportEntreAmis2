@@ -9,6 +9,10 @@ search:
     path: /recherche
     controller: App\Controller\IndexController::searchAction
 
+autocomlete:
+    path: /recherche/autocomplete
+    controller: App\Controller\IndexController::autocompleteAction
+
 register:
     path: /inscription
     controller: App\Controller\RegisterController::registerAction
