@@ -16,20 +16,50 @@ class SearchService
     {
         $this->em = $entityManager;
     }
-
-    //$department = Calvados
-    // @todo mapper Calvado et 14000 pour rendu uniform
+    
     public function searchEstablishment($department, $sports = null)
     {
-        $establishments     = $this->em->getRepository(Establishment::class)->getEstablishmentWithPostalCodeAndSport($department, $sports);
+        $postalCode         = $this->_getPostalCodeFromDepartmentInfo($department);
         $establishmentMatch = array();
 
-        foreach ($establishments as $establishment) {
+        if ($postalCode) {
 
-            $establishmentMatch[] = $this->_getEstablishmentById($establishment['id']);
+            $establishments     = $this->em->getRepository(Establishment::class)->getEstablishmentWithPostalCodeAndSport($postalCode, $sports);
+            $establishmentMatch = array();
+
+            foreach ($establishments as $establishment) {
+
+                $establishmentMatch[] = $this->_getEstablishmentById($establishment['id']);
+            }
         }
 
         return $establishmentMatch;
+    }
+
+    /**
+     * Find Department from a name or a code and return his code
+     *
+     * @param string|integer $department
+     * @return integer|null
+     */
+    private function _getPostalCodeFromDepartmentInfo($department)
+    {
+        if (is_numeric($department)) {
+
+            $department = $this->em->getRepository(Department::class)->findOneBy(['code' => substr($department, 0, 2)]);
+
+        } elseif (is_string($department)) {
+
+            $department = $this->em->getRepository(Department::class)->findOneBy(['name' => ucfirst($department)]);
+        }
+
+        $postalCode = null;
+
+        if ($department) {
+            $postalCode = $department->getCode();
+        }
+
+        return $postalCode;
     }
 
     public function mapEstablishmentWithSports($establishments)

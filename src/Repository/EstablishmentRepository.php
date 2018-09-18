@@ -27,7 +27,7 @@ class EstablishmentRepository extends ServiceEntityRepository
         return $this->findOneBy(['user' => $user]);
     }
 
-    public function getEstablishmentWithPostalCodeAndSport($department, $sports)
+    public function getEstablishmentWithPostalCodeAndSport($postalCode, $sports = null)
     {
         $query = "
             SELECT DISTINCT e.id
@@ -37,8 +37,12 @@ class EstablishmentRepository extends ServiceEntityRepository
             WHERE s.name IN (?) AND e.postal_code LIKE (?)
             ";
 
+        if (!$sports) {
+            $sports = $this->_getAllSportsName();
+        }
+
         $connexion  = $this->_em->getConnection();
-        $stmt       = $connexion->executeQuery($query, array($sports, substr($department,  0, 2) . "%"), array(\Doctrine\DBAL\Connection::PARAM_STR_ARRAY, \PDO::PARAM_STR));
+        $stmt       = $connexion->executeQuery($query, array($sports, $postalCode . "%"), array(\Doctrine\DBAL\Connection::PARAM_STR_ARRAY, \PDO::PARAM_STR));
         
         $establishments = $stmt->fetchAll();
 
@@ -63,5 +67,17 @@ class EstablishmentRepository extends ServiceEntityRepository
         $sports = $stmt->fetchAll();
 
         return $sports;
+    }
+
+    private function _getAllSportsName()
+    {
+        $sportsName = array();
+        $sports     = $this->_em->getRepository(Sport::class)->findAll();
+
+        foreach ($sports as $sport) {
+            $sportsName[] = $sport->getName();
+        }
+
+        return $sportsName;
     }
 }

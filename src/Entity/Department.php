@@ -32,7 +32,7 @@ class Department
     private $name;
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getId()
     {
@@ -40,7 +40,7 @@ class Department
     }
 
     /**
-     * @return string
+     * @return integer
      */
     public function getCode()
     {
@@ -56,7 +56,7 @@ class Department
     }
 
     /**
-     * @return integer
+     * @return string
      */
     public function getName()
     {
