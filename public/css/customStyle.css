@@ -94,3 +94,30 @@ h1, h2, h3, h4, h5, h6 {
     -moz-border-radius: 0px;
     background-image: none;
 }
+
+/*body {
+    min-height: 100vh;
+    margin:0;
+    padding:0;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background: url(../images/background.jpg) no-repeat center center scroll;
+}
+
+.panel-transparent {
+    background: none;
+    border: none;
+}
+
+.panel-transparent .panel-heading{
+    background: rgba(255, 255, 255, 0.5)!important;
+}
+
+.panel-transparent .panel-body{
+    background: rgba(255, 255, 255, 0.5)!important;
+}
+
+.panel-invisible {
+    background: rgba(255, 255, 255, 0)!important;
+    border: none;
+}*/
