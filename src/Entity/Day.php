@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Crenel;
 
 /**
  * @ORM\Entity
@@ -23,6 +25,17 @@ class Day
      * @ORM\Column(type="string")
      */
     private $name;
+
+    /**
+     * One Day has Many Crenel.
+     * @OneToMany(targetEntity="App\Entity\Crenel", mappedBy="day")
+     */
+    private $crenels;
+
+    public function __construct()
+    {
+        $this->crenels = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -46,6 +59,42 @@ class Day
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * Get Crenels
+     *
+     * @return ArrayCollection
+     */
+    function getCrenels()
+    {
+        return $this->crenels;
+    }
+
+    /**
+     * Add Crenel into Day
+     *
+     * @param \App\Entity\Crenel $crenel
+     * @return Day
+     */
+    public function addCrenel(Crenel $crenel)
+    {
+        $this->crenels[] = $crenel;
+
+        return $this;
+    }
+
+    /**
+     * Remove Crenel from Day
+     *
+     * @param \App\Entity\Crenel $crenel
+     * @return Day
+     */
+    public function removeCrenel(Crenel $crenel)
+    {
+        $this->crenels->removeElement($crenel);
+
+        return $this;
     }
 
     public  function __toString()

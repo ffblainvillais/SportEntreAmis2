@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\Crenel;
 
 /**
  * @ORM\Entity
@@ -34,24 +36,16 @@ class Booking
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="begin_date", type="datetime", nullable=false)
+     * @ORM\Column(name="date", type="datetime", nullable=false)
      */
-    private $beginDate;
+    private $date;
 
     /**
-     * @var \DateTime
+     * @var string
      *
-     * @ORM\Column(name="end_date", type="datetime", nullable=false)
+     * @ORM\Column(name="type", type="string", nullable=false)
      */
-    private $endDate;
-
-    /**
-     * Many Booking are on only one Day.
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Day")
-     * @ORM\JoinColumn(name="day_id", referencedColumnName="id")
-     */
-    private $day;
+    private $type;
 
     /**
      * Many Booking are on only one Ground.
@@ -60,6 +54,19 @@ class Booking
      * @ORM\JoinColumn(name="ground_id", referencedColumnName="id")
      */
     private $ground;
+
+    /**
+     * Many Booking have Many Crenel.
+     *
+     * @ManyToMany(targetEntity="App\Entity\Crenel", inversedBy="bookings")
+     * @JoinTable(name="bookings_crenels")
+     */
+    private $crenels;
+
+    public function __construct()
+    {
+        $this->crenels = new ArrayCollection();
+    }
 
     /**
      * @return mixed
@@ -104,36 +111,34 @@ class Booking
     /**
      * @return \DateTime
      */
-    public function getBeginDate()
+    public function getDate()
     {
-        return $this->beginDate;
+        return $this->date;
     }
 
     /**
-     * @param \DateTime $beginDate
+     * @param \DateTime $date
      */
-    public function setBeginDate($beginDate)
+    public function setDate($date)
     {
-        $this->beginDate = $beginDate;
+        $this->date = $date;
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
-    public function getEndDate()
+    public function getType()
     {
-        return $this->endDate;
+        return $this->type;
     }
 
     /**
-     * @param \DateTime $endDate
+     * @param string $type
      */
-    public function setEndDate($endDate)
+    public function setType($type)
     {
-        $this->endDate = $endDate;
+        $this->type = $type;
     }
-
-
 
     /**
      * @return Day
@@ -165,5 +170,41 @@ class Booking
     public function setGround(Ground $ground)
     {
         $this->ground = $ground;
+    }
+
+    /**
+     * Get Crenels
+     *
+     * @return ArrayCollection
+     */
+    function getCrenels()
+    {
+        return $this->crenels;
+    }
+
+    /**
+     * Add Crenel into Day
+     *
+     * @param \App\Entity\Crenel $crenel
+     * @return Day
+     */
+    public function addCrenel(Crenel $crenel)
+    {
+        $this->crenels[] = $crenel;
+
+        return $this;
+    }
+
+    /**
+     * Remove Crenel from Day
+     *
+     * @param \App\Entity\Crenel $crenel
+     * @return Day
+     */
+    public function removeCrenel(Crenel $crenel)
+    {
+        $this->crenels->removeElement($crenel);
+
+        return $this;
     }
 }
