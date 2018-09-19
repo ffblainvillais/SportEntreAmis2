@@ -58,8 +58,8 @@ class Booking
     /**
      * Many Booking have Many Crenel.
      *
-     * @ManyToMany(targetEntity="App\Entity\Crenel", inversedBy="bookings")
-     * @JoinTable(name="bookings_crenels")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Crenel", inversedBy="bookings")
+     * @ORM\JoinTable(name="bookings__crenels")
      */
     private $crenels;
 

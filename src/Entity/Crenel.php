@@ -44,13 +44,21 @@ class Crenel
     /**
      * Many Crenel have Many Booking.
      *
-     * @ManyToMany(targetEntity="App\Entity/Booking", mappedBy="crenels")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Booking", mappedBy="crenels")
      */
     private $bookings;
 
+    /**
+     * Many Crenel have Many OpeningHour.
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\OpeningHour", mappedBy="crenels")
+     */
+    private $openingHours;
+
     public function __construct()
     {
-        $this->bookings = new ArrayCollection();
+        $this->bookings     = new ArrayCollection();
+        $this->openingHours = new ArrayCollection();
     }
 
     /**
@@ -138,9 +146,45 @@ class Crenel
      * @param \App\Entity\Booking $booking
      * @return Crenel
      */
-    public function removeCrenel(Booking $booking)
+    public function removeBooking(Booking $booking)
     {
         $this->bookings->removeElement($booking);
+
+        return $this;
+    }
+
+    /**
+     * Get OpeningHour
+     *
+     * @return ArrayCollection
+     */
+    public function getOpeningHours()
+    {
+        return $this->openingHours;
+    }
+
+    /**
+     * Add OpeningHour into Crenel
+     *
+     * @param \App\Entity\OpeningHour $openingHour
+     * @return Crenel
+     */
+    public function addOpeningHour(OpeningHour $openingHour)
+    {
+        $this->openingHours[] = $openingHour;
+
+        return $this;
+    }
+
+    /**
+     * Remove OpeningHour from Crenel
+     *
+     * @param \App\Entity\OpeningHour $openingHour
+     * @return Crenel
+     */
+    public function removeOpeningHour(OpeningHour $openingHour)
+    {
+        $this->openingHours->removeElement($openingHour);
 
         return $this;
     }
