@@ -7,7 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use App\Entity\Booking;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\CrenelRepository")
  * @ORM\Table(name="crenels")
  */
 class Crenel
@@ -34,12 +34,12 @@ class Crenel
     private $endHour;
 
     /**
-     * Many Crenel are on only one Day.
+     * Many Crenel have Many Day.
      *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Day", inversedBy="crenels")
-     * @ORM\JoinColumn(name="day_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Day", inversedBy="crenels")
+     * @ORM\JoinTable(name="crenels__days")
      */
-    private $day;
+    private $days;
 
     /**
      * Many Crenel have Many Booking.
@@ -59,6 +59,7 @@ class Crenel
     {
         $this->bookings     = new ArrayCollection();
         $this->openingHours = new ArrayCollection();
+        $this->days         = new ArrayCollection();
     }
 
     /**
@@ -102,19 +103,39 @@ class Crenel
     }
 
     /**
-     * @return Day
+     * Get Day
+     *
+     * @return ArrayCollection
      */
-    public function getDay()
+    function getDays()
     {
-        return $this->day;
+        return $this->days;
     }
 
     /**
-     * @param Day $day
+     * Add Day into Crenel
+     *
+     * @param \App\Entity\Day $day
+     * @return Crenel
      */
-    public function setDay(Day $day)
+    public function addDay(Day $day)
     {
-        $this->day = $day;
+        $this->days[] = $day;
+
+        return $this;
+    }
+
+    /**
+     * Remove Day from Crenel
+     *
+     * @param \App\Entity\Day $day
+     * @return Crenel
+     */
+    public function removeDay(Day $day)
+    {
+        $this->days->removeElement($day);
+
+        return $this;
     }
 
     /**

@@ -1,0 +1,22 @@
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col col-md-1">#</th>
+        {% for day in days %}
+            <th scope="col">{{ day.name }}</th>
+        {% endfor %}
+
+    </tr>
+    </thead>
+    <tbody>
+        {% for crenel in establishmentCrenelsMappedByDays %}
+            <tr>
+                <th scope="row col-md-1">{{ crenel.beginHour }}h - {{ crenel.endHour }}h</th>
+
+                {% for dayNumber, info in crenel.daysInfo %}
+                    <td data-day="{{ dayNumber }}" data-crenel="{{ crenel.id }}"> </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

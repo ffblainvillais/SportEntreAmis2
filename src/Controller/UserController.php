@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Crenel;
 use App\Entity\Day;
 use App\Entity\Establishment;
 use App\Entity\Ground;
 use App\Form\EstablishmentType;
 use App\Form\GroundType;
+use App\Service\CrenelService;
 use App\Service\GroundService;
+use App\Service\OpeningHourService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,10 +18,12 @@ class UserController extends AbstractController
 {
 
     protected $groundService;
+    protected $crenelService;
 
-    public function __construct(GroundService $groundService)
+    public function __construct(GroundService $groundService, CrenelService $crenelService)
     {
-        $this->groundService = $groundService;
+        $this->groundService    = $groundService;
+        $this->crenelService    = $crenelService;
     }
 
     public function indexAction()
@@ -69,14 +74,16 @@ class UserController extends AbstractController
 
     public function openingHoursAction()
     {
-        $establishment  = $this->getUser()->getEstablishment();
-        $days           = $this->getDoctrine()->getRepository(Day::class)->findAll();
+        $establishment                      = $this->getUser()->getEstablishment();
+        $days                               = $this->getDoctrine()->getRepository(Day::class)->findAll();
+        $establishmentCrenelsMappedByDays   = $this->crenelService->getCrenelByHour($establishment, true);
 
         return $this->render(
             'user/opening-hours.twig',
             array(
-                'establishment' => $establishment,
-                'days'          => $days,
+                'establishment'                     => $establishment,
+                'establishmentCrenelsMappedByDays'  => $establishmentCrenelsMappedByDays,
+                'days'                              => $days,
             )
         );
     }
