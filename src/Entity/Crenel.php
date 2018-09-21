@@ -34,12 +34,12 @@ class Crenel
     private $endHour;
 
     /**
-     * Many Crenel have Many Day.
+     * Many Crenel are on only one Day.
      *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Day", inversedBy="crenels")
-     * @ORM\JoinTable(name="crenels__days")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Day", inversedBy="crenels")
+     * @ORM\JoinColumn(name="day_id", referencedColumnName="id")
      */
-    private $days;
+    private $day;
 
     /**
      * Many Crenel have Many Booking.
@@ -59,7 +59,6 @@ class Crenel
     {
         $this->bookings     = new ArrayCollection();
         $this->openingHours = new ArrayCollection();
-        $this->days         = new ArrayCollection();
     }
 
     /**
@@ -103,39 +102,19 @@ class Crenel
     }
 
     /**
-     * Get Day
-     *
-     * @return ArrayCollection
+     * @return Day
      */
-    function getDays()
+    public function getDay()
     {
-        return $this->days;
+        return $this->day;
     }
 
     /**
-     * Add Day into Crenel
-     *
-     * @param \App\Entity\Day $day
-     * @return Crenel
+     * @param Day $day
      */
-    public function addDay(Day $day)
+    public function setDay(Day $day)
     {
-        $this->days[] = $day;
-
-        return $this;
-    }
-
-    /**
-     * Remove Day from Crenel
-     *
-     * @param \App\Entity\Day $day
-     * @return Crenel
-     */
-    public function removeDay(Day $day)
-    {
-        $this->days->removeElement($day);
-
-        return $this;
+        $this->day = $day;
     }
 
     /**

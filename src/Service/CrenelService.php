@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Crenel;
 use App\Entity\Day;
 use App\Entity\Establishment;
+use App\Entity\OpeningHour;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CrenelService
@@ -19,7 +20,7 @@ class CrenelService
 
     public function getCrenelByHour(Establishment $establishment, $openingHourPage = false)
     {
-        $crenels    = $this->em->getRepository(Crenel::class)->findAll();
+        $crenels    = $this->em->getRepository(Crenel::class)->getDistinctedCrenels();
         $toRender   = array();
 
         foreach ($crenels as $crenel) {
@@ -31,11 +32,13 @@ class CrenelService
                 "daysInfo"  => array(),
             );
 
-            foreach ($crenel->getDays() as $crenelDay) {
+            $crenelsOfWeekForThisHour = $this->em->getRepository(Crenel::class)->findBy(['beginHour' => $crenel->getBeginHour(), 'endHour' => $crenel->getEndHour()]);
 
-                $crenelInfo['daysInfo'][$crenelDay->getId()] = array(
-                    "isReservable"                  => $openingHourPage ? true : $this->_canReserveCrenel($establishment, $crenel, $crenelDay),
-                    "isInEstablishmentOpeningHour"  => $openingHourPage ? true : $this->_isOpenCrenelForEstablishment($establishment, $crenel, $crenelDay),
+            foreach ($crenelsOfWeekForThisHour as $dayCrenel) {
+
+                $crenelInfo['daysInfo'][$dayCrenel->getDay()->getId()] = array(
+                    "isReservable"                  => $openingHourPage ? true : $this->_canReserveCrenel($establishment, $dayCrenel),
+                    "isInEstablishmentOpeningHour"  => $this->_isOpenCrenelForEstablishment($establishment, $dayCrenel),
                 );
             }
 
@@ -45,67 +48,63 @@ class CrenelService
         return $toRender;
     }
 
-    private function _canReserveCrenel(Establishment $establishment, Crenel $crenel, Day $crenelDay)
+    private function _canReserveCrenel(Establishment $establishment, Crenel $crenel)
     {
 
     }
 
-    private function _isOpenCrenelForEstablishment(Establishment $establishment, Crenel $crenel, Day $crenelDay)
+    private function _isOpenCrenelForEstablishment(Establishment $establishment, Crenel $crenel)
     {
+        $establishmentOpeningHour = $this->_getEstablishmentOpeningHour($establishment);
 
-    }
-
-    public function getStructure()
-    {
-        return array(
-            8 => array(
-                "Lundi" => array(
-                    "isReservable"                  => true,
-                    "isInEstablishmentOpeningHour"  => true,
-                ),
-                "Mardi" => array(
-                    "isReservable"                  => true,
-                    "isInEstablishmentOpeningHour"  => true,
-                ),
-            ),
-            9 => array(
-                "Lundi" => array(
-                    "isReservable"                  => true,
-                    "isInEstablishmentOpeningHour"  => true,
-                ),
-                "Mardi" => array(
-                    "isReservable"                  => true,
-                    "isInEstablishmentOpeningHour"  => true,
-                ),
-            )
-        );
-    }
-
-
-    public function getCrenelMappedByDay2($openingHourPage = false)
-    {
-        $days       = $this->em->getRepository(Day::class)->findAll();
-        $toRender   = array();
-
-        foreach ($days as $day) {
-
-            $dayCrenels = $day->getCrenels();
-
-            foreach ($dayCrenels as $dayCrenel) {
-
-                $toRender[$day->getName()][$dayCrenel->getBeginHour()] = $this->_getInformationCrenel($dayCrenel);
-            }
-
+        if ($establishmentOpeningHour && $establishmentOpeningHour->getCrenels()->contains($crenel)) {
+            return true;
         }
 
-        return $toRender;
+        return false;
     }
 
-    private function _getInformationCrenel(Crenel $dayCrenel)
+    public function addOpeningHours($selectedCrenels, Establishment $establishment)
     {
-        return array(
-            "isReservable"                  => true,
-            "isInEstablishmentOpeningHour"  => true,
-        );
+        $establishmentOpeningHour   = $this->_getEstablishmentOpeningHour($establishment);
+        $res                        = false;
+
+        foreach ($selectedCrenels as $crenel) {
+
+            if (isset($crenel["day"]) && isset($crenel['crenelBeginHour'])) {
+
+                $day            = $this->em->getRepository(Day::class)->findOneBy(['id' => $crenel['day']]);
+                $openingCrenel  = $this->em->getRepository(Crenel::class)->findOneBy(['day' => $day, 'beginHour' => $crenel['crenelBeginHour']]);
+
+                if ($openingCrenel && $establishmentOpeningHour && !$establishmentOpeningHour->getCrenels()->contains($openingCrenel)) {
+
+                    $establishmentOpeningHour->addCrenel($openingCrenel);
+
+                    $this->em->persist($establishmentOpeningHour);
+                    $res = true;
+                }
+            }
+        }
+
+        $this->em->flush();
+
+        return $res;
+    }
+
+    private function _getEstablishmentOpeningHour(Establishment $establishment)
+    {
+        $openingHour = $this->em->getRepository(OpeningHour::class)->findOneBy(['establishment' => $establishment]);
+
+        if (!$openingHour) {
+
+            $openingHour = new OpeningHour();
+            $openingHour->setEstablishment($establishment);
+
+            $this->em->persist($openingHour);
+            $this->em->flush();
+        }
+
+        return $openingHour;
+
     }
 }

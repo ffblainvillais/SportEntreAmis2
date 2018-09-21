@@ -13,4 +13,18 @@ class CrenelRepository extends ServiceEntityRepository
         parent::__construct($registry, Crenel::class);
     }
 
+    public function getDistinctedCrenels()
+    {
+
+        //$this->em->getRepository(Crenel::class)->findBy(['beginHour' => $crenel->getBeginHour(), 'endHour' => $crenel->getEndHour()]);
+        $qb = $this->createQueryBuilder("c");
+
+        $crenels = $qb->select("c")
+            ->groupBy('c.beginHour')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+
+        return $crenels;
+    }
 }

@@ -28,8 +28,7 @@ class Day
 
     /**
      * One Day has Many Crenel.
-     *
-     * @ORM\ManyToMany(targetEntity="App\Entity\Crenel", mappedBy="days")
+     * @ORM\OneToMany(targetEntity="App\Entity\Crenel", mappedBy="day")
      */
     private $crenels;
 

@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Crenel;
 use App\Entity\Day;
 use App\Entity\Establishment;
 use App\Entity\Ground;
@@ -19,7 +18,7 @@ class UserController extends AbstractController
 
     protected $groundService;
     protected $crenelService;
-
+    
     public function __construct(GroundService $groundService, CrenelService $crenelService)
     {
         $this->groundService    = $groundService;
@@ -84,8 +83,25 @@ class UserController extends AbstractController
                 'establishment'                     => $establishment,
                 'establishmentCrenelsMappedByDays'  => $establishmentCrenelsMappedByDays,
                 'days'                              => $days,
+                'openingHourPage'                   => true,
             )
         );
+    }
+
+    public function addOpeningHoursAction(Request $request)
+    {
+        $establishment  = $this->getUser()->getEstablishment();
+        $crenelSelected = $request->request->get('selectedCrenelsMapped');
+
+        $success        = $this->crenelService->addOpeningHours($crenelSelected, $establishment);
+
+        if ($success) {
+            $message = "Tout les créneaux ont bien été ajoutés";
+        } else {
+            $message = "Oups, un problème est survenu";
+        }
+
+        return $this->json($message);
     }
 
     public function groundAction(Request $request)
