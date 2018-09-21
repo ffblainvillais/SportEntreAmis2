@@ -25,35 +25,12 @@
                             </div>
                         {% else %}
 
-                            <h3>{{ userEstablishment.name }}</h3>
+                            {% include 'user/commons/establishment-information.twig' with {
+                                'establishmentAdminPage'        : 1,
+                                'userEstablishment'             : userEstablishment,
+                                'establishementOpeningHours'    : establishementOpeningHours,
+                            } %}
 
-                            <p><i class="fas fa-phone"></i> {{ userEstablishment.phone }}</p>
-                            <p><i class="fab fa-internet-explorer"></i> <a href="{{ userEstablishment.website }}">{{ userEstablishment.website }}</a></p>
-                            <p><i class="fas fa-map-marked"></i> {{ userEstablishment.address }} {{ userEstablishment.postalCode }} {{ userEstablishment.city }}</p>
-
-                            {% if userEstablishment.openingHours is empty %}
-
-                                <div class="centered">
-                                    <p>Vous n'avez pas encore défini d'horaires d'ouverture</p>
-                                    <a href="{{ url('opening-hours') }}"><button class="btn btn-primary">Ajouter horaire d'ouverture</button></a>
-                                </div>
-
-                            {% else %}
-
-                                <i class="fas fa-door-open"></i> Horaire d'ouverture
-                                <a href="{{ url('opening-hours') }}"><i class="fas fa-pencil-alt"></i> Modifier</a>
-
-                                <ul style="list-style: none;">
-                                    {% for index, openingInfo in establishementOpeningHours %}
-                                        <li>{{ openingInfo.day }} {{ openingInfo.sentence }}</li>
-                                    {% endfor %}
-                                </ul>
-
-                            {% endif %}
-
-                            <div class="col-md-3 col-md-offset-10">
-                                <a href="{{ url('establishment') }}"> <button class="btn btn-danger">Modifier</button> </a>
-                            </div>
                         {% endif %}
                     </div>
                 </div>

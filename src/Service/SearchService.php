@@ -11,10 +11,12 @@ class SearchService
 {
 
     protected $em;
+    protected $crenelService;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, CrenelService $crenelService)
     {
-        $this->em = $entityManager;
+        $this->em               = $entityManager;
+        $this->crenelService    = $crenelService;
     }
 
     /**
@@ -82,8 +84,9 @@ class SearchService
         foreach ($establishments as $establishment) {
 
             $establishmentInfo = array(
-                "establishment"     => $establishment,
-                "sportsAvailable"   => $this->_getSportAvailableForEstablishment($establishment),
+                "establishment"                 => $establishment,
+                "sportsAvailable"               => $this->_getSportAvailableForEstablishment($establishment),
+                "establishementOpeningHours"    => $this->crenelService->getOpeningHoursToStringForEstablishment($establishment)
             );
 
             $establishmentsMapped[] = $establishmentInfo;
