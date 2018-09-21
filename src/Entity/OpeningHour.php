@@ -92,4 +92,25 @@ class OpeningHour
 
         return $this;
     }
+
+    /**
+     * Get OpeningHour Crenel for a Day
+     *
+     * @param Day $day
+     * @return array
+     */
+    public function getCrenelsForDay(Day $day)
+    {
+        $crenels        = $this->getCrenels();
+        $crenelsOfDay   = array();
+
+        foreach ($crenels as $crenel) {
+
+            if ($crenel->getDay() == $day) {
+                $crenelsOfDay[] = $crenel;
+            }
+        }
+
+        return $crenelsOfDay;
+    }
 }

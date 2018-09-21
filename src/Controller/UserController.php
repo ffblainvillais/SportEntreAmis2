@@ -18,7 +18,7 @@ class UserController extends AbstractController
 
     protected $groundService;
     protected $crenelService;
-    
+
     public function __construct(GroundService $groundService, CrenelService $crenelService)
     {
         $this->groundService    = $groundService;
@@ -35,8 +35,9 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/index.twig', [
-            'userEstablishment' => $establishment,
-            'groundsPerSport'   => $establishmentGrounds,
+            'userEstablishment'             => $establishment,
+            'groundsPerSport'               => $establishmentGrounds,
+            'establishementOpeningHours'    => $this->crenelService->getOpeningHoursToStringForEstablishment($establishment)
         ]);
     }
 

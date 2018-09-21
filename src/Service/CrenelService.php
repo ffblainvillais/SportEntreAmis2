@@ -107,4 +107,90 @@ class CrenelService
         return $openingHour;
 
     }
+
+    public function getOpeningHoursToStringForEstablishment(Establishment $establishment)
+    {
+        $days                       = $this->em->getRepository(Day::class)->findAll();
+        $establishmentOpeningHour   = $this->_getEstablishmentOpeningHour($establishment);
+        $openingHours               = array();
+
+        foreach ($days as $day) {
+
+            $openingHoursForDay             = $establishmentOpeningHour->getCrenelsForDay($day);
+            $openingHours[$day->getName()]  = $this->_getCrenelsIntervalsForDay($openingHoursForDay);
+        }
+
+        if (!empty($openingHours)) {
+
+            $openingHours = $this->_stringifyOpeningHours($openingHours);
+        }
+
+        return $openingHours;
+    }
+
+    private function _getCrenelsIntervalsForDay($crenelsForDay)
+    {
+        if (!empty($crenelsForDay)) {
+
+            $opengingHours      = array();
+            $i                  = 0;
+            $currentBeginHour   = $crenelsForDay[0]->getBeginHour();
+
+            while ($i < sizeof($crenelsForDay)) {
+
+                $currentEndHour = $crenelsForDay[$i]->getEndHour();
+
+                if (!isset($crenelsForDay[$i + 1])) {
+
+                    $opengingHours[]    = array(
+                        'begin' => $currentBeginHour,
+                        'end'   => $crenelsForDay[$i]->getEndHour(),
+                    );
+
+                } elseif ($crenelsForDay[$i + 1]->getBeginHour() != $currentEndHour) {
+
+                    $lastEndHour        = $crenelsForDay[$i]->getEndHour();
+                    $opengingHours[]    = array(
+                        'begin' => $currentBeginHour,
+                        'end'   => $lastEndHour,
+                    );
+
+                    $currentBeginHour  = $crenelsForDay[$i + 1]->getBeginHour();
+                }
+
+                $i++;
+            }
+            return $opengingHours;
+        }
+
+        return array();
+    }
+
+    private function _stringifyOpeningHours($openingHours)
+    {
+        $toRender = array();
+
+        if (!empty($openingHours)) {
+
+            foreach ($openingHours as $day => $intervals) {
+
+                $sentence = " : ";
+
+                if (!empty($intervals)) {
+
+                    foreach ($intervals as $interval) {
+
+                        $sentence .= $interval['begin'] . "h - " . $interval['end'] . "h ";
+                    }
+                }
+
+                $toRender[] =  array(
+                    'day'      => $day,
+                    'sentence' => $sentence
+                );
+            }
+        }
+
+        return $toRender;
+    }
 }
