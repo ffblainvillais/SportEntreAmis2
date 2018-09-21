@@ -9,11 +9,15 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class GroundType extends AbstractType
 {
+    const GROUND_INDOOR     = "Interieur";
+    const GROUND_OUTDOOR    = "Exterieur";
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -25,6 +29,13 @@ class GroundType extends AbstractType
                     return $repository->createQueryBuilder('s')
                         ->orderBy('s.name', 'ASC');
                 },
+                'attr'          => array('class' => 'form-control'),
+            ))
+            ->add('type', ChoiceType::class,  array (
+                'choices' => array(
+                    self::GROUND_INDOOR     => self::GROUND_INDOOR,
+                    self::GROUND_OUTDOOR    => self::GROUND_OUTDOOR,
+                ),
                 'attr'          => array('class' => 'form-control'),
             ))
 

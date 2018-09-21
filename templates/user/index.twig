@@ -50,7 +50,7 @@
                                         </div>
                                         <ul class="list-group list-group-flush">
                                             {% for ground in grounds %}
-                                                <li class="list-group-item">Terrain {{ ground.number }} <a href="{{ url('remove-ground', {groundId : ground.id}) }}"><i class="fas fa-times"></i></a></li>
+                                                <li class="list-group-item">Terrain {{ ground.number }} {% if ground.type %}({{ ground.type }}){% endif %} <a href="{{ url('remove-ground', {groundId : ground.id}) }}"><i class="fas fa-times"></i></a></li>
                                             {% endfor %}
                                         </ul>
                                     </div>

@@ -25,6 +25,13 @@ class Ground
     private $number;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $type;
+
+    /**
      * One Ground serves only one sport.
      * @ORM\ManyToOne(targetEntity="App\Entity\Sport")
      * @ORM\JoinColumn(name="sport_id", referencedColumnName="id")
@@ -60,6 +67,22 @@ class Ground
     public function setNumber($number)
     {
         $this->number = $number;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
     /**
