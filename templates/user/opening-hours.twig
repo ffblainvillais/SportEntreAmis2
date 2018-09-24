@@ -13,23 +13,29 @@
                     <div class="panel-body">
                         <h2>Horaires d'ouverture - {{ establishment.name }}</h2>
 
-                        {#{% for day in days %}
+                        <p>
+                            Pour Séléctionner vos horaires d'ouverture cliquez avec votre souris sur le créneau désiré et glissez jusqu'au créneau de fin, puis lachez le clic.
+                        </p>
+                        <p>
+                            Une fois que tout les créneaux sont séléctionnés, cliquez sur le bouton pour <strong>Appliquer</strong>.
+                        </p>
 
-                            <div class="col-md-6">
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">
-                                            {{ day.name }}
-                                            <button type="button" id="{{ day.id }}" class="btn btn-info btn-xs pull-right add_plage">Ajouter une plage horaire</button>
-                                        </h3>
-                                    </div>
-                                    <div class="panel-body">
+                        <div class="alert alert-danger js-book_alert" style="display: none;"></div>
 
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-md-2 col-md-offset-10">
+                            <button class="btn btn-primary js-book_apply" style="float: right">Appliquer les horaires d'ouverture</button>
+                        </div>
 
-                        {% endfor %}#}
+                        <br/>
+                        <br/>
+
+                        <div>
+                            {% include 'application/commons/calendar.twig' with {
+                                'establishmentCrenelsMappedByDays'  : establishmentCrenelsMappedByDays,
+                                'days'                              : days,
+                                'openingHourPage'                   : openingHourPage
+                            } %}
+                        </div>
 
                     </div>
                 </div>

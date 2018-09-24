@@ -37,6 +37,10 @@ opening-hours:
     path: /user/etablissement/horaire-ouverture
     controller: App\Controller\UserController::openingHoursAction
 
+add-opening-hours:
+    path: /user/etablissement/ajout-horaire-ouverture
+    controller: App\Controller\UserController::addOpeningHoursAction
+
 ground:
     path: /user/terrain
     controller: App\Controller\UserController::groundAction
@@ -44,6 +48,7 @@ ground:
 remove-ground:
     path: /user/suppression-terrain/{groundId}
     controller: App\Controller\UserController::removeGroundAction
+
 
 
 

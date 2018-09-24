@@ -18,28 +18,6 @@ class OpeningHour
     private $id;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $start;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="datetime")
-     */
-    private $end;
-
-    /**
-     * Many OpeningHour has one Day
-     *
-     * @ORM\ManyToOne(targetEntity="App\Entity\Day")
-     * @ORM\JoinColumn(name="day_id", referencedColumnName="id")
-     */
-    private $day;
-
-    /**
      * Many OpeningHour have One Establishment.
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\Establishment", inversedBy="openingHours")
@@ -48,59 +26,19 @@ class OpeningHour
     private $establishment;
 
     /**
+     * Many OpeningHour have Many Crenel.
+     *
+     * @ORM\ManyToMany(targetEntity="App\Entity\Crenel", inversedBy="openingHours")
+     * @ORM\JoinTable(name="opening_hours__crenels")
+     */
+    private $crenels;
+
+    /**
      * @return mixed
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getStart()
-    {
-        return $this->start;
-    }
-
-    /**
-     * @param \DateTime $start
-     */
-    public function setStart($start)
-    {
-        $this->start = $start;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getEnd()
-    {
-        return $this->end;
-    }
-
-    /**
-     * @param \DateTime $end
-     */
-    public function setEnd($end)
-    {
-        $this->end = $end;
-    }
-
-    /**
-     * @return Day
-     */
-    public function getDay()
-    {
-        return $this->day;
-    }
-
-    /**
-     * @param Day $day
-     */
-    public function setDay(Day $day)
-    {
-        $this->day = $day;
     }
 
     /**
@@ -119,5 +57,63 @@ class OpeningHour
         $this->establishment = $establishment;
     }
 
+    /**
+     * Get Crenels
+     *
+     * @return ArrayCollection
+     */
+    function getCrenels()
+    {
+        return $this->crenels;
+    }
 
+    /**
+     * Add Crenel into OpeningHour
+     *
+     * @param \App\Entity\Crenel $crenel
+     * @return OpeningHour
+     */
+    public function addCrenel(Crenel $crenel)
+    {
+        $this->crenels[] = $crenel;
+
+        return $this;
+    }
+
+    /**
+     * Remove Crenel from OpeningHour
+     *
+     * @param \App\Entity\Crenel $crenel
+     * @return OpeningHour
+     */
+    public function removeCrenel(Crenel $crenel)
+    {
+        $this->crenels->removeElement($crenel);
+
+        return $this;
+    }
+
+    /**
+     * Get OpeningHour Crenel for a Day
+     *
+     * @param Day $day
+     * @return array
+     */
+    public function getCrenelsForDay(Day $day)
+    {
+        $crenels        = $this->getCrenels();
+        $crenelsOfDay   = array();
+
+        if ($crenels) {
+
+            foreach ($crenels as $crenel) {
+
+                if ($crenel->getDay() == $day) {
+                    $crenelsOfDay[] = $crenel;
+                }
+            }
+        }
+
+        return $crenelsOfDay;
+    }
 }

@@ -1,0 +1,37 @@
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        {% for day in days %}
+            <th scope="col" id="{{ day.id }}">{{ day.name }}</th>
+        {% endfor %}
+
+    </tr>
+    </thead>
+    <tbody class="js-book__selectable">
+        {% for crenel in establishmentCrenelsMappedByDays %}
+            <tr class="">
+                <th scope="row" class="col-sm-1">{{ crenel.beginHour }}h - {{ crenel.endHour }}h</th>
+
+                {% for dayNumber, info in crenel.daysInfo %}
+
+                    {% if not info.isInEstablishmentOpeningHour and not openingHourPage %}
+
+                        {% set classForCrenel = "cell-unselectable" %}
+
+                    {% elseif info.isInEstablishmentOpeningHour and openingHourPage %}
+
+                        {% set classForCrenel = "table-success js-book_unselectable_item js-book_selected" %}
+
+                    {% else %}
+
+                        {% set classForCrenel = "js-book_selectable_item" %}
+
+                    {% endif %}
+
+                    <td class="col-sm-1 {{ classForCrenel }}" data-day="{{ dayNumber }}" data-crenel_begin_hour="{{ crenel.beginHour }}"> </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

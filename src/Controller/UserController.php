@@ -7,7 +7,9 @@ use App\Entity\Establishment;
 use App\Entity\Ground;
 use App\Form\EstablishmentType;
 use App\Form\GroundType;
+use App\Service\CrenelService;
 use App\Service\GroundService;
+use App\Service\OpeningHourService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,10 +17,12 @@ class UserController extends AbstractController
 {
 
     protected $groundService;
+    protected $crenelService;
 
-    public function __construct(GroundService $groundService)
+    public function __construct(GroundService $groundService, CrenelService $crenelService)
     {
-        $this->groundService = $groundService;
+        $this->groundService    = $groundService;
+        $this->crenelService    = $crenelService;
     }
 
     public function indexAction()
@@ -31,8 +35,9 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/index.twig', [
-            'userEstablishment' => $establishment,
-            'groundsPerSport'   => $establishmentGrounds,
+            'userEstablishment'             => $establishment,
+            'groundsPerSport'               => $establishmentGrounds,
+            'establishementOpeningHours'    => $establishment ? $this->crenelService->getOpeningHoursToStringForEstablishment($establishment) : array(),
         ]);
     }
 
@@ -69,16 +74,35 @@ class UserController extends AbstractController
 
     public function openingHoursAction()
     {
-        $establishment  = $this->getUser()->getEstablishment();
-        $days           = $this->getDoctrine()->getRepository(Day::class)->findAll();
+        $establishment                      = $this->getUser()->getEstablishment();
+        $days                               = $this->getDoctrine()->getRepository(Day::class)->findAll();
+        $establishmentCrenelsMappedByDays   = $this->crenelService->getCrenelByHour($establishment, true);
 
         return $this->render(
             'user/opening-hours.twig',
             array(
-                'establishment' => $establishment,
-                'days'          => $days,
+                'establishment'                     => $establishment,
+                'establishmentCrenelsMappedByDays'  => $establishmentCrenelsMappedByDays,
+                'days'                              => $days,
+                'openingHourPage'                   => true,
             )
         );
+    }
+
+    public function addOpeningHoursAction(Request $request)
+    {
+        $establishment  = $this->getUser()->getEstablishment();
+        $crenelSelected = $request->request->get('selectedCrenelsMapped');
+
+        $success        = $this->crenelService->addOpeningHours($crenelSelected, $establishment);
+
+        if ($success) {
+            $message = "Tout les créneaux ont bien été ajoutés";
+        } else {
+            $message = "Oups, un problème est survenu";
+        }
+
+        return $this->json($message);
     }
 
     public function groundAction(Request $request)

@@ -94,3 +94,71 @@ h1, h2, h3, h4, h5, h6 {
     -moz-border-radius: 0px;
     background-image: none;
 }
+
+/* ##### TABLES ##### */
+.table-active, .table-active > td, .table-active > th {
+    background-color: rgba(0,0,0,.075)
+}
+
+.table-hover .table-active:hover {
+    background-color: rgba(0,0,0,.075)
+}
+
+.table-hover .table-active:hover > td, .table-hover .table-active:hover > th {
+    background-color: rgba(0,0,0,.075)
+}
+
+.table-success, .table-success > td, .table-success > th {
+    background-color: #c3e6cb
+}
+
+.table-hover .table-success:hover {
+    background-color: #b1dfbb
+}
+
+.table-hover .table-success:hover > td, .table-hover .table-success:hover > th {
+    background-color: #b1dfbb
+}
+
+.table-danger, .table-danger > td, .table-danger > th {
+    background-color: #f5c6cb
+}
+
+.table-hover .table-danger:hover {
+    background-color: #f1b0b7
+}
+
+.table-hover .table-danger:hover > td, .table-hover .table-danger:hover > th {
+    background-color: #f1b0b7
+}
+
+.cell-unselectable {
+    background-color: #868585;
+}
+
+/*body {
+    min-height: 100vh;
+    margin:0;
+    padding:0;
+    -webkit-background-size: cover;
+    background-size: cover;
+    background: url(../images/background.jpg) no-repeat center center scroll;
+}
+
+.panel-transparent {
+    background: none;
+    border: none;
+}
+
+.panel-transparent .panel-heading{
+    background: rgba(255, 255, 255, 0.5)!important;
+}
+
+.panel-transparent .panel-body{
+    background: rgba(255, 255, 255, 0.5)!important;
+}
+
+.panel-invisible {
+    background: rgba(255, 255, 255, 0)!important;
+    border: none;
+}*/
