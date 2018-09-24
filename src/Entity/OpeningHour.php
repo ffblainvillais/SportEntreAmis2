@@ -104,10 +104,13 @@ class OpeningHour
         $crenels        = $this->getCrenels();
         $crenelsOfDay   = array();
 
-        foreach ($crenels as $crenel) {
+        if ($crenels) {
 
-            if ($crenel->getDay() == $day) {
-                $crenelsOfDay[] = $crenel;
+            foreach ($crenels as $crenel) {
+
+                if ($crenel->getDay() == $day) {
+                    $crenelsOfDay[] = $crenel;
+                }
             }
         }
 

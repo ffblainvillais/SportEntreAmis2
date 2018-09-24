@@ -13,11 +13,30 @@
                     <div class="panel-body">
                         <h2>Horaires d'ouverture - {{ establishment.name }}</h2>
 
-                        {% include 'application/commons/calendar.twig' with {
-                            'establishmentCrenelsMappedByDays'  : establishmentCrenelsMappedByDays,
-                            'days'                              : days,
-                            'openingHourPage'                   : openingHourPage
-                        } %}
+                        <p>
+                            Pour Séléctionner vos horaires d'ouverture cliquez avec votre souris sur le créneau désiré et glissez jusqu'au créneau de fin, puis lachez le clic.
+                        </p>
+                        <p>
+                            Une fois que tout les créneaux sont séléctionnés, cliquez sur le bouton pour <strong>Appliquer</strong>.
+                        </p>
+
+                        <div class="alert alert-danger js-book_alert" style="display: none;"></div>
+
+                        <div class="col-md-2 col-md-offset-10">
+                            <button class="btn btn-primary js-book_apply" style="float: right">Appliquer les horaires d'ouverture</button>
+                        </div>
+
+                        <br/>
+                        <br/>
+
+                        <div>
+                            {% include 'application/commons/calendar.twig' with {
+                                'establishmentCrenelsMappedByDays'  : establishmentCrenelsMappedByDays,
+                                'days'                              : days,
+                                'openingHourPage'                   : openingHourPage
+                            } %}
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -7,8 +7,17 @@
 
             this.$selectableItems   = $('.js-book__selectable');
             this.addCrenelsUrl      = '/user/etablissement/ajout-horaire-ouverture';
+            this.selectableClass    = 'js-book_selectable_item';
+            this.unselectableClass  = 'js-book_unselectable_item';
+            this.alertDiv           = $('.js-book_alert');
 
             this.init()
+        }
+
+        showAlert(message) {
+
+            this.alertDiv.text(message)
+            this.alertDiv.show()
         }
 
         mapCrenels($selectedCrenels) {
@@ -31,7 +40,60 @@
             $.post(this.addCrenelsUrl, { selectedCrenelsMapped }).done(res => {
                 console.log(res)
             })
+        }
 
+        removeAllClasses($objectSelected) {
+
+            $objectSelected.removeClass('table-active')
+            $objectSelected.removeClass('table-danger')
+            $objectSelected.removeClass('table-success')
+        }
+
+        addSelectingClasses($objectSelected) {
+
+            if ($objectSelected.hasClass(this.selectableClass)) {
+
+                this.removeAllClasses($objectSelected)
+                $objectSelected.addClass('table-active')
+
+            } else if ($objectSelected.hasClass(this.unselectableClass)) {
+
+                this.removeAllClasses($objectSelected)
+                $objectSelected.addClass('table-danger')
+            }
+        }
+
+        addUnselectingClasses($objectSelected) {
+
+            if ($objectSelected.hasClass(this.selectableClass)) {
+
+                this.removeAllClasses($objectSelected)
+
+
+            } else if ($objectSelected.hasClass(this.unselectableClass)) {
+
+                this.removeAllClasses($objectSelected)
+                $objectSelected.addClass('table-success');
+            }
+        }
+
+        addSelectedClass($objectSelected) {
+
+            if ($objectSelected.hasClass(this.selectableClass)) {
+
+                this.removeAllClasses($objectSelected)
+                $objectSelected.addClass('table-success');
+                $objectSelected.addClass('js-book_selected');
+                $objectSelected.addClass(this.unselectableClass);
+                $objectSelected.removeClass(this.selectableClass);
+
+            } else if ($objectSelected.hasClass(this.unselectableClass)) {
+
+                this.removeAllClasses($objectSelected)
+                $objectSelected.addClass(this.selectableClass);
+                $objectSelected.removeClass(this.unselectableClass);
+                $objectSelected.removeClass('js-book_selected');
+            }
         }
 
         init() {
@@ -39,39 +101,45 @@
             const that = this
 
             this.$selectableItems.selectable({
-                filter: '.js-book_selectable_item',
+                filter: 'td',
                 selecting: function (event, ui) {
-                    $(ui.selecting).addClass('table-active');
+
+                    let $objectSelected = $(ui.selecting)
+
+                    that.addSelectingClasses($objectSelected)
+
                 },
                 selected: function (event, ui) {
-                    $(ui.selected).removeClass('table-active');
-                    $(ui.selected).removeClass('table-danger');
-                    $(ui.selected).addClass('table-success');
+
+                    let $objectSelected = $(ui.selected)
+
+                    that.addSelectedClass($objectSelected)
+
                 },
                 unselecting: function (event, ui) {
-                    $(ui.unselecting).removeClass('table-success');
-                    $(ui.unselecting).removeClass('table-active');
-                },
-                unselected: function (event, ui) {
-                    $(ui.unselected).removeClass('table-danger');
-                },
-                stop: function (event, ui) {
 
-                    let $selectedCrenels = $('.ui-selected')
+                    let $objectSelected = $(ui.unselecting)
 
-                    if ($selectedCrenels.length > 0) {
-
-                        let mappedSelectedCrenels = that.mapCrenels($selectedCrenels);
-
-                        that.addOpeningHours(mappedSelectedCrenels)
-                    }
-
-                    window.location.reload()
+                    that.addUnselectingClasses($objectSelected)
                 }
             });
 
-        }
+            $('.js-book_apply').on('click', (e) => {
 
+                let $selectedCrenels        = $('.js-book_selected')
+                let mappedSelectedCrenels   = this.mapCrenels($selectedCrenels);
+
+                if ($selectedCrenels.length > 0) {
+
+                    this.addOpeningHours(mappedSelectedCrenels)
+                    window.location.reload()
+
+                } else {
+
+                    this.showAlert('Veuillez séléctionner au moins un créneau')
+                }
+            })
+        }
     }
 
     new Book()

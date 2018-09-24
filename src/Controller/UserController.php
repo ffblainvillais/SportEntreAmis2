@@ -37,7 +37,7 @@ class UserController extends AbstractController
         return $this->render('user/index.twig', [
             'userEstablishment'             => $establishment,
             'groundsPerSport'               => $establishmentGrounds,
-            'establishementOpeningHours'    => $this->crenelService->getOpeningHoursToStringForEstablishment($establishment)
+            'establishementOpeningHours'    => $establishment ? $this->crenelService->getOpeningHoursToStringForEstablishment($establishment) : array(),
         ]);
     }
 

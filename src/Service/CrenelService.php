@@ -69,6 +69,8 @@ class CrenelService
         $establishmentOpeningHour   = $this->_getEstablishmentOpeningHour($establishment);
         $res                        = false;
 
+        $this->_removeOldEstablishmentCrenels($establishmentOpeningHour);
+
         foreach ($selectedCrenels as $crenel) {
 
             if (isset($crenel["day"]) && isset($crenel['crenelBeginHour'])) {
@@ -89,6 +91,21 @@ class CrenelService
         $this->em->flush();
 
         return $res;
+    }
+
+    private function _removeOldEstablishmentCrenels(OpeningHour $openingHour)
+    {
+        $crenels = $openingHour->getCrenels();
+
+        if (!empty($crenels)) {
+
+            foreach ($crenels as $crenel) {
+                $openingHour->removeCrenel($crenel);
+            }
+
+            $this->em->persist($openingHour);
+            $this->em->flush();
+        }
     }
 
     private function _getEstablishmentOpeningHour(Establishment $establishment)
