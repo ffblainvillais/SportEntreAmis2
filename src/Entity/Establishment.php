@@ -86,9 +86,13 @@ class Establishment
      *
      * @ORM\ManyToMany(targetEntity="App\Entity\Parameter")
      * @ORM\JoinTable(name="establishments__parameters",
-     *      joinColumns={@ORM\JoinColumn(name="establishment_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="parameter_id", referencedColumnName="id")}
-     *      )
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="establishment_id", referencedColumnName="id")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="parameter_id", referencedColumnName="id")
+     *   }
+     * )
      */
     private $parameters;
 
@@ -261,7 +265,7 @@ class Establishment
      *
      * @return ArrayCollection
      */
-    function getOpeningHours()
+    public function getOpeningHours()
     {
         return $this->openingHours;
     }
@@ -297,7 +301,7 @@ class Establishment
      *
      * @return ArrayCollection
      */
-    function getParameters()
+    public function getParameters()
     {
         return $this->parameters;
     }

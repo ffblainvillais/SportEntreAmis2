@@ -49,6 +49,11 @@ remove-ground:
     path: /user/suppression-terrain/{groundId}
     controller: App\Controller\UserController::removeGroundAction
 
+apply-parameter:
+    path: /user/maj-parametres
+    controller: App\Controller\UserController::majParamsAction
+
+
 
 
 

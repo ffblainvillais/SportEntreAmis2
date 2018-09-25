@@ -32,6 +32,13 @@ class Parameter
     private $description;
 
     /**
+     * @var smallint
+     *
+     * @ORM\Column(type="smallint")
+     */
+    private $value;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -70,4 +77,21 @@ class Parameter
     {
         $this->description = $description;
     }
+
+    /**
+     * @return smallint
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param smallint $value
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
 }
