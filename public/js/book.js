@@ -9,6 +9,7 @@
             this.addCrenelsUrl      = '/user/etablissement/ajout-horaire-ouverture';
             this.selectableClass    = 'js-book_selectable_item';
             this.unselectableClass  = 'js-book_unselectable_item';
+            this.$establishmentPage = '/user';
             this.alertDiv           = $('.js-book_alert');
 
             this.init()
@@ -132,7 +133,8 @@
                 if ($selectedCrenels.length > 0) {
 
                     this.addOpeningHours(mappedSelectedCrenels)
-                    window.location.reload()
+
+                    document.location.href = this.$establishmentPage;
 
                 } else {
 

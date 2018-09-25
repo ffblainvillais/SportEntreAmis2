@@ -61,6 +61,13 @@ class Establishment
     private $website;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=50)
+     */
+    private $hash;
+
+    /**
      * One Establishment has One User.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\User", mappedBy="establishment")
@@ -206,6 +213,22 @@ class Establishment
     public function setWebsite($website)
     {
         $this->website = $website;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHash()
+    {
+        return $this->hash;
+    }
+
+    /**
+     * @param string $hash
+     */
+    public function setHash($hash)
+    {
+        $this->hash = $hash;
     }
 
     /**

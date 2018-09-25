@@ -208,11 +208,12 @@ label.input-toggle > input {
     height: 0;
 }
 
-.search-results {
+.search-results .sportListEstablishmentPage {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-items : center;
 }
 
 .establishment-result-container {

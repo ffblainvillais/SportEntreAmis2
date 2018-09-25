@@ -53,6 +53,10 @@ apply-parameter:
     path: /user/maj-parametres
     controller: App\Controller\UserController::majParamsAction
 
+establishment-page:
+    path: /user/etablissement/{establishmentHash}
+    controller: App\Controller\IndexController::establishmentPageAction
+
 
 
 

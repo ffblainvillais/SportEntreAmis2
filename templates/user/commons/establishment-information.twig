@@ -1,5 +1,6 @@
 {% set establishmentAdminPage   = establishmentAdminPage is defined and establishmentAdminPage %}
 {% set searchPage               = searchPage is defined and searchPage %}
+{% set displayOpeningHour       = (displayOpeningHour is defined and displayOpeningHour) or establishmentAdminPage %}
 
 <h3>{{ userEstablishment.name }}</h3>
 
@@ -13,7 +14,7 @@
     <p><i class="fas fa-map-marked"></i> {{ userEstablishment.address }} {{ userEstablishment.postalCode }} {{ userEstablishment.city }}</p>
 {% endif %}
 
-{% if establishmentAdminPage %}
+{% if displayOpeningHour %}
     {% if userEstablishment.openingHours is empty %}
 
         {% if establishmentAdminPage %}
@@ -28,7 +29,10 @@
     {% else %}
 
         <i class="fas fa-door-open"></i> Horaire d'ouverture
+
+        {% if establishmentAdminPage %}
             <a href="{{ url('opening-hours') }}"> <i class="fas fa-pencil-alt"></i> Modifier</a>
+        {% endif %}
 
         <ul style="list-style: none;">
             {% for index, openingInfo in establishementOpeningHours %}
@@ -56,6 +60,6 @@
     </p>
 
     <p>
-        <a href="#" class="btn btn-primary center-block search-result-button" role="button">Voir établissement</a>
+        <a href="{{ url('establishment-page', {'establishmentHash' : establishment.hash}) }}" class="btn btn-primary center-block search-result-button" role="button">Voir établissement</a>
     </p>
 {% endif %}

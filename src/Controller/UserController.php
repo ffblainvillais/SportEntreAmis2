@@ -62,6 +62,7 @@ class UserController extends AbstractController
         if ($establishmentForm->isSubmitted() && $establishmentForm->isValid()) {
 
             $user->setEstablishment($establishment);
+            $establishment->setHash(uniqid());
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($establishment);

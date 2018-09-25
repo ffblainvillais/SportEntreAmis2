@@ -2,19 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Establishment;
 use App\Entity\Sport;
+use App\Service\CrenelService;
 use App\Service\SearchService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class IndexController extends Controller
 {
-
     private $searchService;
+    private $crenelService;
 
-    public function __construct(SearchService $searchService)
+    public function __construct(SearchService $searchService, CrenelService $crenelService)
     {
         $this->searchService = $searchService;
+        $this->crenelService = $crenelService;
     }
 
     public function indexAction()
@@ -35,7 +38,7 @@ class IndexController extends Controller
         if ($department) {
 
             $establishments                 = $this->searchService->searchEstablishment($department, $sportsSelected);
-            $establishmentsMappedWithSports = $this->searchService->mapEstablishmentWithSports($establishments);
+            $establishmentsMappedWithSports = $this->searchService->getEstablishmentsInfos($establishments);
 
         } else {
 
@@ -67,5 +70,26 @@ class IndexController extends Controller
         }
 
         return $this->json(array('res' => $toRender));
+    }
+
+    public function establishmentPageAction(Request $request)
+    {
+        $establishmentHash  = $request->attributes->get('establishmentHash');
+        $establishment      = $this->getDoctrine()->getRepository(Establishment::class)->findOneBy(['hash' => $establishmentHash]);
+
+        if ($establishment) {
+
+            $establishmentInfos = $this->searchService->getEstablishmentInfo($establishment);
+
+            return $this->render('search/establishment-page.twig', [
+                'userEstablishment'             => $establishmentInfos['establishment'],
+                'establishementOpeningHours'    => $establishmentInfos['establishementOpeningHours'],
+                'sportsAvailable'               => $establishmentInfos['sportsAvailable'],
+            ]);
+
+        } else {
+
+            return $this->redirectToRoute('index');
+        }
     }
 }

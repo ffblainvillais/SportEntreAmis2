@@ -77,22 +77,33 @@ class SearchService
      * @param array $establishments
      * @return array
      */
-    public function mapEstablishmentWithSports($establishments)
+    public function getEstablishmentsInfos($establishments)
     {
         $establishmentsMapped = array();
 
         foreach ($establishments as $establishment) {
 
-            $establishmentInfo = array(
-                "establishment"                 => $establishment,
-                "sportsAvailable"               => $this->_getSportAvailableForEstablishment($establishment),
-                "establishementOpeningHours"    => $this->crenelService->getOpeningHoursToStringForEstablishment($establishment)
-            );
-
-            $establishmentsMapped[] = $establishmentInfo;
+            $establishmentsMapped[] = $this->getEstablishmentInfo($establishment);
         }
 
         return $establishmentsMapped;
+    }
+
+    /**
+     * Get Establishment Informations
+     *
+     * @param Establishment $establishment
+     * @return array
+     */
+    public function getEstablishmentInfo(Establishment $establishment)
+    {
+        $establishmentInfo = array(
+            "establishment"                 => $establishment,
+            "sportsAvailable"               => $this->_getSportAvailableForEstablishment($establishment),
+            "establishementOpeningHours"    => $this->crenelService->getOpeningHoursToStringForEstablishment($establishment)
+        );
+
+        return $establishmentInfo;
     }
 
     /**

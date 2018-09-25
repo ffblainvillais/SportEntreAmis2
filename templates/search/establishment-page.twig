@@ -1,0 +1,54 @@
+{% extends 'layout/layout.twig' %}
+
+{% block content %}
+    {{ parent() }}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <h4><a href="{{ url('index') }}"><i class="fas fa-chevron-left"></i> Accueil</a></h4>
+
+                <div class="panel panel-primary">
+                    <div class="panel panel-heading"> Information établissement </div>
+                    <div class="panel-body">
+                        {% include 'user/commons/establishment-information.twig' with {
+                            'displayOpeningHour'            : 1,
+                            'userEstablishment'             : userEstablishment,
+                            'establishementOpeningHours'    : establishementOpeningHours,
+                        } %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                         <h2>Sport proposés</h2>
+
+                        <div class="sportListEstablishmentPage">
+
+                            {% for sport in sportsAvailable %}
+
+                                <div class="col-md-4">
+                                    <div class="thumbnail">
+                                        <img src="{{ sport.imagePath }}" alt="{{ sport.name }}">
+                                        <div class="caption">
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
