@@ -13,40 +13,49 @@
     <p><i class="fas fa-map-marked"></i> {{ userEstablishment.address }} {{ userEstablishment.postalCode }} {{ userEstablishment.city }}</p>
 {% endif %}
 
-{% if userEstablishment.openingHours is empty %}
+{% if establishmentAdminPage %}
+    {% if userEstablishment.openingHours is empty %}
 
-    {% if establishmentAdminPage %}
-        <div class="centered">
-            <p>Vous n'avez pas encore défini d'horaires d'ouverture</p>
-            <a href="{{ url('opening-hours') }}"><button class="btn btn-primary">Ajouter horaire d'ouverture</button></a>
-        </div>
+        {% if establishmentAdminPage %}
+            <div class="centered">
+                <p>Vous n'avez pas encore défini d'horaires d'ouverture</p>
+                <a href="{{ url('opening-hours') }}"><button class="btn btn-primary">Ajouter horaire d'ouverture</button></a>
+            </div>
+        {% else %}
+            <p><i class="fas fa-door-open"></i> Pas encore d'horaires d'ouverture renseignés </p>
+        {% endif %}
+
     {% else %}
-        <p><i class="fas fa-door-open"></i> Pas encore d'horaires d'ouverture renseignés </p>
+
+        <i class="fas fa-door-open"></i> Horaire d'ouverture
+            <a href="{{ url('opening-hours') }}"> <i class="fas fa-pencil-alt"></i> Modifier</a>
+
+        <ul style="list-style: none;">
+            {% for index, openingInfo in establishementOpeningHours %}
+                <li>{{ openingInfo.day }} {{ openingInfo.sentence }}</li>
+            {% endfor %}
+        </ul>
+
     {% endif %}
-
-{% else %}
-
-    <i class="fas fa-door-open"></i> Horaire d'ouverture
-    {% if establishmentAdminPage %}
-        <a href="{{ url('opening-hours') }}"> <i class="fas fa-pencil-alt"></i> Modifier</a>
-    {% endif %}
-
-    <ul style="list-style: none;">
-        {% for index, openingInfo in establishementOpeningHours %}
-            <li>{{ openingInfo.day }} {{ openingInfo.sentence }}</li>
-        {% endfor %}
-    </ul>
-
 {% endif %}
 
 {% if establishmentAdminPage %}
-    <div class="col-md-3 col-md-offset-10">
+    <div class="col-md-3 col-md-offset-9">
         <a href="{{ url('establishment') }}"> <button class="btn btn-danger">Modifier</button> </a>
     </div>
 {% endif %}
 
 {% if searchPage %}
-    <p class="col-md-offset-6">
-        <a href="#" class="btn btn-primary" role="button">Voir établissement</a>
+    <p>
+        <h4>Sports disponible</h4>
+        <ul style="list-style: none">
+            {% for sport in sportsAvailable %}
+                <li><img src="{{ sport.pictoPath }}"> {{ sport.name }}</li>
+            {% endfor %}
+        </ul>
+    </p>
+
+    <p>
+        <a href="#" class="btn btn-primary center-block search-result-button" role="button">Voir établissement</a>
     </p>
 {% endif %}

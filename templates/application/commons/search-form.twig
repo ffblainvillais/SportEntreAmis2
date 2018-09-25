@@ -22,7 +22,7 @@
         <div class="form-check">
             {% for sport in sports %}
                 <div>
-                    <label class="form-check-label" for="{{ sport.name }}">{{ sport.name }}</label>
+                    <img src="{{ sport.pictoPath }}"> <label class="form-check-label" for="{{ sport.name }}">{{ sport.name }}</label>
                     <input type="checkbox" name="sport[]" class="form-check-input" value="{{ sport }}" {% if sportsSelected is defined and sport.name in sportsSelected %} checked {% endif %}>
                 </div>
             {% endfor %}

@@ -25,6 +25,20 @@ class Sport
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $pictoPath;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $imagePath;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -46,6 +60,38 @@ class Sport
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPictoPath()
+    {
+        return $this->pictoPath;
+    }
+
+    /**
+     * @param string $pictoPath
+     */
+    public function setPictoPath($pictoPath)
+    {
+        $this->pictoPath = $pictoPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImagePath()
+    {
+        return $this->imagePath;
+    }
+
+    /**
+     * @param string $imagePath
+     */
+    public function setImagePath($imagePath)
+    {
+        $this->imagePath = $imagePath;
     }
 
     public  function __toString()

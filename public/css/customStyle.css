@@ -35,11 +35,6 @@ h1, h2, h3, h4, h5, h6 {
     justify-content: space-around;
 }
 
-.search-results {
-    display: flex;
-    flex-direction: row;
-}
-
 /* ##### AUTOCOMPLETE ##### */
 .ui-helper-hidden-accessible {
     display: none;
@@ -213,6 +208,24 @@ label.input-toggle > input {
     height: 0;
 }
 
+.search-results {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.establishment-result-container {
+    position:relative;
+    min-height: 400px;
+    /*min-width: 33%;*/
+}
+
+.search-result-button {
+    position: absolute;
+    bottom: 10px;
+    width: 92%;
+}
 
 
 
