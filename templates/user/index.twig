@@ -66,6 +66,41 @@
                         </div>
                     </div>
                 </div>
+
+                {% if establishmentParameters is not empty %}
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel panel-heading"> Paramètres de l'application</div>
+                            <div class="panel-body">
+                                <form class="form-horizontal" method="POST" action="{{ url('apply-parameter') }}" name="ground">
+
+                                    {% for parameter in establishmentParameters %}
+
+                                        <div class="form-group">
+                                            <div class="col-md-10">
+                                                {{ parameter.description }}
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="input-toggle">
+                                                    <input type="hidden" name="parameters[{{ parameter.name }}]" value="0" />
+                                                    <input type="checkbox" name="parameters[{{ parameter.name }}]" value="1" {% if parameter.value %} checked {% endif %}>
+                                                    <span></span>
+                                                </label>
+
+                                            </div>
+
+                                        </div>
+
+                                    {% endfor %}
+
+                                    <div class="col-md-4 col-md-offset-9">
+                                        <a href="{{ url('ground') }}"><button class="btn btn-primary">Appliquer</button></a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             {% endif %}
 
             {% if userEstablishment %}

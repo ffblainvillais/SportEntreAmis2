@@ -10,34 +10,39 @@ use App\Form\GroundType;
 use App\Service\CrenelService;
 use App\Service\GroundService;
 use App\Service\OpeningHourService;
+use App\Service\ParameterService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserController extends AbstractController
 {
-
     protected $groundService;
     protected $crenelService;
+    protected $parameterService;
 
-    public function __construct(GroundService $groundService, CrenelService $crenelService)
+    public function __construct(GroundService $groundService, CrenelService $crenelService, ParameterService $parameterService)
     {
         $this->groundService    = $groundService;
         $this->crenelService    = $crenelService;
+        $this->parameterService = $parameterService;
     }
 
     public function indexAction()
     {
         $establishment          = $this->getUser()->getEstablishment();
         $establishmentGrounds   = null;
+        $parameters             = null;
 
         if ($establishment) {
             $establishmentGrounds   = $this->groundService->getGroundMappedBySportForEstablishment($establishment);
+            $parameters             = $this->parameterService->getEstablishmentParameters($establishment);
         }
 
         return $this->render('user/index.twig', [
             'userEstablishment'             => $establishment,
             'groundsPerSport'               => $establishmentGrounds,
             'establishementOpeningHours'    => $establishment ? $this->crenelService->getOpeningHoursToStringForEstablishment($establishment) : array(),
+            'establishmentParameters'       => $parameters,
         ]);
     }
 
@@ -137,6 +142,16 @@ class UserController extends AbstractController
         $ground     = $this->getDoctrine()->getRepository(Ground::class)->find($groundId);
 
         $this->groundService->removeGround($ground);
+
+        return $this->redirectToRoute('user');
+    }
+    
+    public function majParamsAction(Request $request)
+    {
+        $parameters     = $request->request->get('parameters');
+        $establishment  = $this->getUser()->getEstablishment();
+
+        $this->parameterService->applyParameters($parameters, $establishment);
 
         return $this->redirectToRoute('user');
     }
