@@ -26,13 +26,12 @@ class CrenelService
         foreach ($crenels as $crenel) {
 
             $crenelInfo = array(
-                "id"        => $crenel->getId(),
-                "beginHour" => $crenel->getBeginHour(),
-                "endHour"   => $crenel->getEndHour(),
+                "beginHour" => $crenel['beginHour'],
+                "endHour"   => $crenel['endHour'],
                 "daysInfo"  => array(),
             );
 
-            $crenelsOfWeekForThisHour = $this->em->getRepository(Crenel::class)->findBy(['beginHour' => $crenel->getBeginHour(), 'endHour' => $crenel->getEndHour()]);
+            $crenelsOfWeekForThisHour = $this->em->getRepository(Crenel::class)->findBy(['beginHour' => $crenel['beginHour'], 'endHour' => $crenel['endHour']]);
 
             foreach ($crenelsOfWeekForThisHour as $dayCrenel) {
 

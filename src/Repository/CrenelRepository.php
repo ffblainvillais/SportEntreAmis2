@@ -17,9 +17,7 @@ class CrenelRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder("c");
 
-        $crenels = $qb->select("c")
-            ->groupBy('c.beginHour')
-            ->orderBy('c.id', 'ASC')
+        $crenels = $qb->select("DISTINCT c.beginHour, c.endHour")
             ->getQuery()
             ->getResult();
 
