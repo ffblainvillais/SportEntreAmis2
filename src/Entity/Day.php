@@ -32,9 +32,24 @@ class Day
      */
     private $crenels;
 
+    /**
+     * Many Ground have One Establishment.
+     * @ORM\ManyToOne(targetEntity="App\Entity\Establishment", inversedBy="days")
+     * @ORM\JoinColumn(name="establishment_id", referencedColumnName="id")
+     */
+    private $establishment;
+
+    /**
+     * Many OpeningHour have Many Hour.
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\Hour", mappedBy="day")
+     */
+    private $hours;
+
     public function __construct()
     {
-        $this->crenels = new ArrayCollection();
+        $this->crenels  = new ArrayCollection();
+        $this->hours    = new ArrayCollection();
     }
 
     /**
@@ -62,24 +77,24 @@ class Day
     }
 
     /**
-     * Get Crenels
+     * Get Hours
      *
      * @return ArrayCollection
      */
-    function getCrenels()
+    function getHours()
     {
-        return $this->crenels;
+        return $this->hours;
     }
 
     /**
      * Add Crenel into Day
      *
-     * @param \App\Entity\Crenel $crenel
+     * @param \App\Entity\Hour $hour
      * @return Day
      */
-    public function addCrenel(Crenel $crenel)
+    public function addCrenel(Hour $hour)
     {
-        $this->crenels[] = $crenel;
+        $this->hours[] = $hour;
 
         return $this;
     }
@@ -87,18 +102,32 @@ class Day
     /**
      * Remove Crenel from Day
      *
-     * @param \App\Entity\Crenel $crenel
+     * @param \App\Entity\Hour $hour
      * @return Day
      */
-    public function removeCrenel(Crenel $crenel)
+    public function removeCrenel(Hour $hour)
     {
-        $this->crenels->removeElement($crenel);
+        $this->hours->removeElement($hour);
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEstablishment()
+    {
+        return $this->establishment;
+    }
+
+    public function setEstablishment(Establishment $establishment)
+    {
+        $this->establishment = $establishment;
     }
 
     public  function __toString()
     {
         return $this->name;
     }
+
 }

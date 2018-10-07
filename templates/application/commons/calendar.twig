@@ -2,36 +2,49 @@
     <thead>
     <tr>
         <th scope="col">#</th>
-        {% for day in days %}
+        {% for day in establishment.days %}
             <th scope="col" id="{{ day.id }}">{{ day.name }}</th>
         {% endfor %}
 
     </tr>
     </thead>
     <tbody class="js-book__selectable">
-        {% for crenel in establishmentCrenelsMappedByDays %}
-            <tr class="">
-                <th scope="row" class="col-sm-1">{{ crenel.beginHour }}h - {{ crenel.endHour }}h</th>
 
-                {% for dayNumber, info in crenel.daysInfo %}
+        {% for day in establishment.days %}
+            <tr class="">{% for day in establishment.days %}
+            {% for hour in day.hours %}
 
-                    {% if not info.isInEstablishmentOpeningHour and not openingHourPage %}
 
-                        {% set classForCrenel = "cell-unselectable" %}
+                {% if  hour.day.id == day.id%}
 
-                    {% elseif info.isInEstablishmentOpeningHour and openingHourPage %}
 
-                        {% set classForCrenel = "table-success js-book_unselectable_item js-book_selected" %}
 
-                    {% else %}
+                        <th scope="row" class="col-sm-1">{{ hour.beginHour }}h - {{ hour.endHour }}h</th>
 
-                        {% set classForCrenel = "js-book_selectable_item" %}
+                        {% if not hour.isInEstablishmentOpeningHour and not openingHourPage %}
 
-                    {% endif %}
+                            {% set classForCrenel = "cell-unselectable" %}
 
-                    <td class="col-sm-1 {{ classForCrenel }}" data-day="{{ dayNumber }}" data-crenel_begin_hour="{{ crenel.beginHour }}"> </td>
-                {% endfor %}
+                        {% elseif hour.isInEstablishmentOpeningHour and openingHourPage %}
+
+                            {% set classForCrenel = "table-success js-book_unselectable_item js-book_selected" %}
+
+                        {% else %}
+
+                            {% set classForCrenel = "js-book_selectable_item" %}
+
+                        {% endif %}
+
+                        <td class="col-sm-1 {{ classForCrenel }}" data-day="{{ hour.day.id }}" data-crenel_begin_hour="{{ hour.beginHour }}"> {{ day.id  }}</td>
+
+
+
+                {% endif %}
+
+            {% endfor %}
             </tr>
+
         {% endfor %}
+
     </tbody>
 </table>

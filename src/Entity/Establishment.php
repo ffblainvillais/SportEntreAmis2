@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Entity\EstablishmentDaysHours;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EstablishmentRepository")
@@ -82,11 +83,11 @@ class Establishment
     private $grounds;
 
     /**
-     * One Establishment has Many OpeningHours.
+     * Many OpeningHour have Many Hour.
      *
-     * @ORM\OneToMany(targetEntity="App\Entity\OpeningHour", mappedBy="establishment")
+     * @ORM\OneToMany(targetEntity="App\Entity\Day", mappedBy="establishment")
      */
-    private $openingHours;
+    private $days;
 
     /**
      * Many Establishment have Many Parameter.
@@ -107,8 +108,8 @@ class Establishment
     public function __construct()
     {
         $this->grounds      = new ArrayCollection();
-        $this->openingHours = new ArrayCollection();
         $this->parameters   = new ArrayCollection();
+        $this->days         = new ArrayCollection();
     }
 
     /**
@@ -283,38 +284,39 @@ class Establishment
         return $this;
     }
 
+
     /**
      * Get Grounds
      *
      * @return ArrayCollection
      */
-    public function getOpeningHours()
+    public function getDays()
     {
-        return $this->openingHours;
+        return $this->days;
     }
 
     /**
-     * Add OpeningHour into Establishment
+     * Add Day into Establishment
      *
-     * @param \App\Entity\OpeningHour $openingHour
+     * @param \App\Entity\Day $day
      * @return Establishment
      */
-    public function addOpeningHour(OpeningHour $openingHour)
+    public function addDay(Day $day)
     {
-        $this->openingHours[] = $openingHour;
+        $this->days[] = $day;
 
         return $this;
     }
 
     /**
-     * Remove OpeningHour from Establishment
+     * Remove Day from Establishment
      *
-     * @param \App\Entity\OpeningHour $openingHour
+     * @param \App\Entity\Day $day
      * @return Establishment
      */
-    public function removeOpeningHour(OpeningHour $openingHour)
+    public function removeDay(Day $day)
     {
-        $this->openingHours->removeElement($openingHour);
+        $this->days->removeElement($day);
 
         return $this;
     }
@@ -354,4 +356,5 @@ class Establishment
 
         return $this;
     }
+
 }

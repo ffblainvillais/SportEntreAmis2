@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Day;
 use App\Entity\Establishment;
 use App\Entity\Ground;
+use App\Entity\Hour;
 use App\Form\EstablishmentType;
 use App\Form\GroundType;
 use App\Service\CrenelService;
@@ -81,15 +82,16 @@ class UserController extends AbstractController
     public function openingHoursAction()
     {
         $establishment                      = $this->getUser()->getEstablishment();
-        $days                               = $this->getDoctrine()->getRepository(Day::class)->findAll();
-        $establishmentCrenelsMappedByDays   = $this->crenelService->getCrenelByHour($establishment, true);
+
+        //echo "<pre style='background:#fff; color:#000'>";\Doctrine\Common\Util\Debug::dump($establishment);die();
+        //$hours                              = $this->getDoctrine()->getRepository(Hour::class)
+        //$establishmentCrenelsMappedByDays   = $this->crenelService->getCrenelByHour($establishment, true);
 
         return $this->render(
             'user/opening-hours.twig',
             array(
                 'establishment'                     => $establishment,
-                'establishmentCrenelsMappedByDays'  => $establishmentCrenelsMappedByDays,
-                'days'                              => $days,
+                //'establishmentCrenelsMappedByDays'  => $establishmentCrenelsMappedByDays,
                 'openingHourPage'                   => true,
             )
         );
